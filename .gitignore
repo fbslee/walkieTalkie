@@ -1,4 +1,12 @@
-node_modules
-bower_components
+
+
 *.DS_Store
 *./public/keys
+
+** modules **
+node_modules
+
+** webpack **
+public/build
+bundle.js
+
