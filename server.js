@@ -36,7 +36,11 @@ app.use(session({
 // });
 
 app.get('/checkSession', (req, res) => {
-  res.status(200).send({id : req.session.userId, roomId : req.session.roomId, firstname : req.session.userName});
+  res.status(200).send({
+    id : req.session.userId, 
+    roomId : req.session.roomId, 
+    firstname : req.session.userName
+  });
 });
 
 app.get('/getActiveUsers', (req, res) => {
