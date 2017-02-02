@@ -1,23 +1,31 @@
 import React from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
 
 import ChatBody from './chats/ChatBody'
 import LoginSignupView from './login/LoginSignupView'
 import ViewNavBar from './topBar/ViewNavbar'
 
+@connect(store => {
+  
+})
 class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
       userId : null,
       name : null,
-      roomId : null,
-      roomSearch : null,
+
       login_signup_view : true,
       chat_view : false,
-      mounted : false
+      mounted : false,
+
+      roomId : null,
+      roomSearch : null
+  
     }
-    this.componentWillMount = this.componentWillMount.bind(this);
+
+    //this.componentWillMount = this.componentWillMount.bind(this);
     this.handleUserSignupLogin = this.handleUserSignupLogin.bind(this);
     this.handleUserLogout = this.handleUserLogout.bind(this);
     this.handleChatSelection = this.handleChatSelection.bind(this);
@@ -95,11 +103,14 @@ class App extends React.Component {
 //===========================================================
 //              Lifecycle Methods
 //===========================================================
-  componentWillMount(){
-   axios.get('/checkSession')
-   .then(res => {
+  //Gets called on page refresh
+  componentDidMount(){
+   axios.get('/checkSession').then(res => {
+     
      if (res.data.id) {
+       console.log('AXIOS: GOT SESSION ID!')
       if (res.data.roomId) {
+        console.log('AXIOS: ...AND A ROOMID!')
         this.setState({
           userId : res.data.id,
           name : res.data.firstname,
@@ -109,6 +120,7 @@ class App extends React.Component {
           chat_view : true
         })
       } else { 
+        console.log('AXIOS: BUT NO ROOMID D: !')
         this.setState({
           userId : res.data.id,
           name : res.data.firstname,
@@ -117,16 +129,19 @@ class App extends React.Component {
         })
       }
      } else {
+       console.log('AXIOS: NO ID D: !')
        this.setState({
          mounted : true
        })
      }
-   })
-   .catch(err => {
-     console.log(err);
+   }).catch(err => {
+     console.log(err)
    })
   }
 
+//===========================================================
+//              Render
+//===========================================================
   render() {
     let navBarProps =  {
       logout : this.handleUserLogout,
@@ -147,8 +162,9 @@ class App extends React.Component {
     let NavBar = <ViewNavBar {...navBarProps}/>
     let Login = <LoginSignupView userSignupLogin = {this.handleUserSignupLogin} />
     let Chat = <ChatBody {...chatProps}/>
- 
+    
     if (this.state.mounted) {
+      console.log('RENDERING: MOUNTED!')
       return (
         <div>
           {NavBar}
@@ -156,6 +172,7 @@ class App extends React.Component {
         </div>
       )
     } else {
+      console.log('RENDERING: NULL')
       return null;
     }
   }
