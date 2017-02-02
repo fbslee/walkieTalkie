@@ -21,7 +21,7 @@ module.exports.app = app;
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static('./app/build'))
 
 app.use(session({
   secret : "walkienotTalkie",
@@ -31,9 +31,9 @@ app.use(session({
   activeDuration : 15 * 60 * 1000
 }));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/index.html'))
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, './public/index.html'))
+// });
 
 app.get('/checkSession', (req, res) => {
   res.status(200).send({id : req.session.userId, roomId : req.session.roomId, firstname : req.session.userName});
