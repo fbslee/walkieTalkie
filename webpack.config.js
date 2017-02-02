@@ -38,11 +38,8 @@ var config = {
                 exclude: /node_modules/,
                 test: SRC_DIR,
                 query: {
-                    presets: ['es2015', 'react'],
-                    plugins: [
-                        "transform-class-properties",
-                        "transform-decorators-legacy"
-                    ]
+                presets: ['es2015', 'react'],
+                plugins: ["transform-class-properties"]
                 },
             },
             {
