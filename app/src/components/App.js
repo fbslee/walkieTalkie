@@ -43,6 +43,9 @@ class App extends React.Component {
     this.props.dispatch(userLogin(res));
   }
 
+//===========================================================
+//              Render
+//===========================================================
   render() {
     const navBarProps = {
       userId: this.props.userId,
