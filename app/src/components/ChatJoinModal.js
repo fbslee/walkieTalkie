@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import UserInterestsItemized from './UserClickInterestsView.js';
 import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-
-import UserInterestsItemized from './UserClickInterestsView.js';
 
 class ChatJoinModal extends Component {
   constructor(props){

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import { Popover, OverlayTrigger, Button, Alert } from 'react-bootstrap';
-
 import InterestsItem from './UserClickInterestsView'
+import { Popover } from 'react-bootstrap';
+import { OverlayTrigger } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 class UserItem extends Component {
   constructor(props) {
