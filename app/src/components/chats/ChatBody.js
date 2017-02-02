@@ -12,7 +12,7 @@ const ChatBody = ({roomChange, userId, roomId, name, searchResults, selectRoom, 
       {
         (chat_view) 
         ? <Chatroom {...chatroomProps} /> 
-        : <ChatSelection selectRoom="selectRoom" />
+        : <ChatSelection selectRoom={selectRoom} />
       }
     </div>
   );
