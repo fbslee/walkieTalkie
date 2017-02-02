@@ -1,23 +1,11 @@
-<<<<<<< HEAD
-import React from 'react';
-import axios from 'axios';
-import LoginSignupView from './LoginSignupView.js';
-import ViewNavBar from './ViewNavbar.js';
-import Chatroom from './Chatroom.js';
-import ChatSelection from './ChatSelection.js';
-
-
-class App extends React.Component {
-=======
-import React, { Component } from 'react'
+import React from 'react'
 import axios from 'axios'
 
-import ChatArea from './chats/ChatArea'
+import ChatBody from './chats/ChatBody'
 import LoginSignupView from './login/LoginSignupView'
 import ViewNavBar from './topBar/ViewNavbar'
 
-class App extends Component {
->>>>>>> [all shit]
+class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
@@ -37,46 +25,9 @@ class App extends Component {
     this.handleRoomChange = this.handleRoomChange.bind(this);
   }
 
-  componentWillMount(){
-   axios.get('/checkSession')
-   .then(res => {
-     if (res.data.id) {
-      if (res.data.roomId) {
-        this.setState({
-          userId : res.data.id,
-          name : res.data.firstname,
-          roomId : res.data.roomId,
-          mounted : true,
-          login_signup_view : false,
-          chat_view : true
-        })
-      } else { 
-        this.setState({
-          userId : res.data.id,
-          name : res.data.firstname,
-          mounted : true,
-          login_signup_view : false
-        })
-      }
-     } else {
-       this.setState({
-         mounted : true
-       })
-     }
-   })
-   .catch(err => {
-     console.log(err);
-   })
-  }
-
- handleUserSignupLogin(res){
-   this.setState({
-     userId : res.id,
-     name : res.firstname,
-     login_signup_view  : false
-   })
- }
-
+//===========================================================
+//              Top Bar Methods
+//===========================================================
  handleUserLogout(){
    var self = this;
    axios.post('/logout', {id :this.state.userId})
@@ -94,15 +45,7 @@ class App extends Component {
    })
  }
 
- handleChatSelection(inputRoomId, searchOptions, result){
-   this.setState({
-     roomId : inputRoomId,
-     roomSearch : {'option' : searchOptions, 'res' : result},
-     chat_view : true
-   })
- }
-
- handleChatExit(){
+  handleChatExit(){
    var self = this;
    if (this.state.roomId) {
     axios.post('/exitChat', {id : this.state.userId})
@@ -118,35 +61,26 @@ class App extends Component {
    }
  }
 
+//===========================================================
+//              Login Methods
+//===========================================================
+ handleUserSignupLogin(res){
+   this.setState({
+     userId : res.id,
+     name : res.firstname,
+     login_signup_view  : false
+   })
+ }
+
+//===========================================================
+//              Chatroom Methods
+//===========================================================
  handleRoomChange(newRoom) {
    this.setState({
      roomId : newRoom,
    })
  }
 
-<<<<<<< HEAD
-
-  render() {
-    return (
-      <div>
-        <ViewNavBar logout = {this.handleUserLogout} 
-                    home = {this.handleChatExit} 
-                    userId = {this.state.userId}/>
-       {
-         this.state.mounted ? 
-         (this.state.login_signup_view ? 
-         (<LoginSignupView userSignupLogin = {this.handleUserSignupLogin}/>) :
-         (this.state.chat_view ? <Chatroom roomChange = {this.handleRoomChange} 
-                                           userId = {this.state.userId} 
-                                           roomId = {this.state.roomId} 
-                                           name = {this.state.name} 
-                                           searchResults = {this.state.roomSearch}/> 
-         : < ChatSelection selectRoom = {this.handleChatSelection}/>))  
-         :(<div></div>)
-       }
-      </div>
-    )
-=======
 //===========================================================
 //              ChatSelection Methods
 //===========================================================
@@ -162,7 +96,6 @@ class App extends Component {
 //              Lifecycle Methods
 //===========================================================
   componentWillMount(){
-    console.log('HERE!!!!');
    axios.get('/checkSession')
    .then(res => {
      if (res.data.id) {
@@ -194,40 +127,38 @@ class App extends Component {
    })
   }
 
-
   render() {
-    // let navBarProps =  {
-    //   logout : this.handleUserLogout,
-    //   home : this.handleChatExit,
-    //   userId : this.state.userId
-    // }
+    let navBarProps =  {
+      logout : this.handleUserLogout,
+      home : this.handleChatExit,
+      userId : this.state.userId
+    }
 
-    // let chatProps = {
-    //   roomChange : this.handleRoomChange,
-    //   userId : this.state.userId,
-    //   roomId : this.state.roomId, 
-    //   name : this.state.name,
-    //   searchResults : this.state.roomSearch,
-    //   selectRoom : this.handleChatSelection,
-    //   chat_view :  this.state.chat_view
-    // }
+    let chatProps = {
+      roomChange : this.handleRoomChange,
+      userId : this.state.userId,
+      roomId : this.state.roomId, 
+      name : this.state.name,
+      searchResults : this.state.roomSearch,
+      selectRoom : this.handleChatSelection,
+      chat_view :  this.state.chat_view
+    }
 
-    // let NavBar = <ViewNavBar {...navBarProps}/>
-    // let Login = <LoginSignupView userSignupLogin = {this.handleUserSignupLogin} />
-    // let Chat = <ChatArea {...chatProps}/>
-    
-    console.log(this.state.LoginSignupView);
-    // (this.state.LoginSignupView) ? Login : Chat
+    let NavBar = <ViewNavBar {...navBarProps}/>
+    let Login = <LoginSignupView userSignupLogin = {this.handleUserSignupLogin} />
+    let Chat = <ChatBody {...chatProps}/>
+ 
     if (this.state.mounted) {
       return (
         <div>
+          {NavBar}
+          {(this.state.login_signup_view) ? Login : Chat}
         </div>
       )
     } else {
       return null;
     }
->>>>>>> [all shit]
   }
 }
 
-export default App;
+export default App
