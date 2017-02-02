@@ -14,4 +14,4 @@ class MapView extends Component {
   }
 }
 
-export default MapView;
+export default MapView

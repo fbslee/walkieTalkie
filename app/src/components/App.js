@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import axios from 'axios';
 import LoginSignupView from './LoginSignupView.js';
@@ -7,6 +8,16 @@ import ChatSelection from './ChatSelection.js';
 
 
 class App extends React.Component {
+=======
+import React, { Component } from 'react'
+import axios from 'axios'
+
+import ChatArea from './chats/ChatArea'
+import LoginSignupView from './login/LoginSignupView'
+import ViewNavBar from './topBar/ViewNavbar'
+
+class App extends Component {
+>>>>>>> [all shit]
   constructor(props){
     super(props)
     this.state = {
@@ -113,6 +124,7 @@ class App extends React.Component {
    })
  }
 
+<<<<<<< HEAD
 
   render() {
     return (
@@ -134,7 +146,88 @@ class App extends React.Component {
        }
       </div>
     )
+=======
+//===========================================================
+//              ChatSelection Methods
+//===========================================================
+ handleChatSelection(inputRoomId, searchOptions, result){
+   this.setState({
+     roomId : inputRoomId,
+     roomSearch : {'option' : searchOptions, 'res' : result},
+     chat_view : true
+   })
+ }
+
+//===========================================================
+//              Lifecycle Methods
+//===========================================================
+  componentWillMount(){
+    console.log('HERE!!!!');
+   axios.get('/checkSession')
+   .then(res => {
+     if (res.data.id) {
+      if (res.data.roomId) {
+        this.setState({
+          userId : res.data.id,
+          name : res.data.firstname,
+          roomId : res.data.roomId,
+          mounted : true,
+          login_signup_view : false,
+          chat_view : true
+        })
+      } else { 
+        this.setState({
+          userId : res.data.id,
+          name : res.data.firstname,
+          mounted : true,
+          login_signup_view : false
+        })
+      }
+     } else {
+       this.setState({
+         mounted : true
+       })
+     }
+   })
+   .catch(err => {
+     console.log(err);
+   })
+  }
+
+
+  render() {
+    // let navBarProps =  {
+    //   logout : this.handleUserLogout,
+    //   home : this.handleChatExit,
+    //   userId : this.state.userId
+    // }
+
+    // let chatProps = {
+    //   roomChange : this.handleRoomChange,
+    //   userId : this.state.userId,
+    //   roomId : this.state.roomId, 
+    //   name : this.state.name,
+    //   searchResults : this.state.roomSearch,
+    //   selectRoom : this.handleChatSelection,
+    //   chat_view :  this.state.chat_view
+    // }
+
+    // let NavBar = <ViewNavBar {...navBarProps}/>
+    // let Login = <LoginSignupView userSignupLogin = {this.handleUserSignupLogin} />
+    // let Chat = <ChatArea {...chatProps}/>
+    
+    console.log(this.state.LoginSignupView);
+    // (this.state.LoginSignupView) ? Login : Chat
+    if (this.state.mounted) {
+      return (
+        <div>
+        </div>
+      )
+    } else {
+      return null;
+    }
+>>>>>>> [all shit]
   }
 }
 
-export default App
+export default App;

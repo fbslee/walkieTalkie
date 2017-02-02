@@ -69,4 +69,4 @@ class ViewNavBar extends Component {
   }
 }
 
-export default ViewNavBar;
+export default ViewNavBar
