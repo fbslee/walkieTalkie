@@ -8,14 +8,14 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // Paths for compiling / bundling
 var app_dir = path.resolve(__dirname, 'app')
-var bin_dir = path.resolve(__dirname, 'public/build')
+var bin_dir = path.resolve(__dirname, 'public')
 var PUBLIC_DIR = path.resolve(__dirname, 'app/public')
 
 // Webpack config
 var config = {
     entry: app_dir + '/main.js',
     output: {
-        path: bin_dir,
+        path: bin_dir + '/build',
         filename: 'bundle.js'
     },
         resolve:{
@@ -28,7 +28,7 @@ var config = {
         loaders: [
             {
                 loader: 'react-hot',
-                test: app_dir,
+                test: bin_dir + '/build',
             },
             {
                 loader: 'babel-loader',

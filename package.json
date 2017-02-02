@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node server.js",
     "webpack": "./node_modules/.bin/webpack -d --watch",
+    "dev": "webpack-dev-server --progress --colors",
     "test": "mocha"
   },
   "dependencies": {
@@ -31,6 +32,10 @@
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",
     "react-loading": "0.0.9",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.8.0",
+    "redux-promise-middleware": "^4.2.0",
+    "redux-thunk": "^2.2.0",
     "sequelize": "^3.29.0",
     "socket.io": "^1.7.2",
     "webpack": "^1.14.0"
