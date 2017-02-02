@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "webpack": "./node_modules/.bin/webpack -d --watch",
+    "webpack": "./node_modules/.bin/webpack -d --colors --progress --watch",
     "dev": "webpack-dev-server --progress --colors",
     "test": "mocha"
   },
@@ -47,6 +47,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.3.13",
     "chai": "^3.5.0",
     "copy-webpack-plugin": "^0.2.0",
@@ -55,12 +56,12 @@
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",
     "morgan": "^1.7.0",
+    "mysql": "^1.1.2",
     "react-hot-loader": "^1.3.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "validator": "^6.2.1",
-    "webpack-dev-server": "^1.12.1",
-    "mysql": "^1.1.2",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.12.1"
   }
 }
