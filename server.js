@@ -21,7 +21,7 @@ module.exports.app = app;
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static('./app/build'))
 
 app.use(session({
   secret : "walkienotTalkie",

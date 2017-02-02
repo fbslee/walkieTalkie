@@ -7,15 +7,15 @@ var path = require('path')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // Paths for compiling / bundling
-var app_dir = path.resolve(__dirname, 'app')
-var bin_dir = path.resolve(__dirname, 'public')
+var SRC_DIR = path.resolve(__dirname, 'app/src')
 var PUBLIC_DIR = path.resolve(__dirname, 'app/public')
+var BUILD_DIR = path.resolve(__dirname, 'app/build')
 
 // Webpack config
 var config = {
-    entry: app_dir + '/main.js',
+    entry:path.resolve(SRC_DIR, 'main.js'),
     output: {
-        path: bin_dir + '/build',
+        path: BUILD_DIR,
         filename: 'bundle.js'
     },
         resolve:{
@@ -23,17 +23,20 @@ var config = {
             "ag-grid-root" : __dirname + "/node_modules/ag-grid"
         }
     },
+    devServer: {
+        contentBase: BUILD_DIR,
+    },
     watch : true,
     module: {
         loaders: [
             {
                 loader: 'react-hot',
-                test: bin_dir + '/build',
+                test: SRC_DIR,
             },
             {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
-                test: app_dir,
+                test: SRC_DIR,
                 query: {
                 presets: ['es2015', 'react'],
                 plugins: ["transform-class-properties"]
@@ -74,7 +77,10 @@ var config = {
         ]
   },
     plugins: [
-    // Avoid publishing files when compilation fails
+    new CopyWebpackPlugin([{
+      from: PUBLIC_DIR
+    } // to: output.path
+    ]),
     new webpack.NoErrorsPlugin()
   ],
   stats: {
