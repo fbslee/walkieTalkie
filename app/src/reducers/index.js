@@ -8,6 +8,5 @@ export default combineReducers({
   login,
   chat,
   nav,
-
 });
 
