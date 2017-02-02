@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Navbar } from 'react-bootstrap';
-import { Nav } from 'react-bootstrap';
-import { NavItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
+
 import UserInterests from './UserInterests'
-import MapModal from './MapModal.js';
+import MapModal from './MapModal';
 
 class ViewNavBar extends Component {
   constructor(props){
