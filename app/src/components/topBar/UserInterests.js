@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import AvailableInterests from './AvailableInterests.js';
-import { Grid } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { FormGroup } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
+import { FormGroup, Button, Modal } from 'react-bootstrap';
+
+import AvailableInterests from './AvailableInterests';
+
 
 class UserInterests extends Component {
   constructor(props){

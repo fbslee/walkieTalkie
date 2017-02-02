@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Container from './GoogleMaps/Container.js';
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
+
+import Container from './GoogleMaps/Container.js';
 
 class MapModal extends Component {
   constructor(props){
