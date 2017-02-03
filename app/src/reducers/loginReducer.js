@@ -7,29 +7,33 @@ const defaultProps = {
 
 export default function reducer(state = defaultProps, action) {
   switch (action.type) {
-
     case 'SET_USER_NAME': {
       return {...state, 
         name: action.payload
       }
-      break
     }
     case 'SET_USER_ID': {
       return {...state, 
         userID: action.payload
       }
-      break
     }
     case 'USER_LOGIN_SUCCESS': {
-      return {...state, 
-        userId: action.payload.userId,
-        name: action.payload.name,
-        logged_in: action.payload.logged_in
+      return {...state,
+        mounted: true, 
+        userId: action.payload.id,
+        name: action.payload.firstname,
+        logged_in: true
       }
-      break
+    }
+    case 'USER_LOGOUT_SUCCESS': {
+      return {...state, 
+        userId: null,
+        name: null,
+        logged_in: false
+      }
     }
     case 'APP_MOUNTED': {
-      return {...props,
+      return {...state,
         mounted: action.payload  
       }
     }
