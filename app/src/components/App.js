@@ -13,6 +13,8 @@ import keys from '../../../keys'
 import {mountApp, userLogin, userLogout} from '../actions/loginActions'
 import { chatExit } from '../actions/chatActions';
 
+import './App.css';
+
 @connect(store => ({
   userId: store.login.userId,
   name: store.login.name,
@@ -69,7 +71,6 @@ class App extends Component {
       userSignupLogin: ::this.handleUserSignupLogin,
     };
 
-<<<<<<< HEAD
     const Login = () =>{
       if(this.props.logged_in){
         return(
@@ -81,21 +82,14 @@ class App extends Component {
         )
       }
     }
-    const Chat = <ChatBody />;
-=======
-    const login = <LoginSignupView {...loginProps} />;
-    const chatBody = <ChatBody />;
->>>>>>> [feat] redux implementation
 
-    if (this.props.mounted) {
+    const Chat = <ChatBody />;
+
+     if (this.props.mounted) {
       return (
         <div>
           <ViewNavBar {...navBarProps} />
-<<<<<<< HEAD
-          {Login()}
-=======
-          {(this.props.logged_in) ? chatBody : login}
->>>>>>> [feat] redux implementation
+          {Login}
         </div>
       );
     }
