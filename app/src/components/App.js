@@ -14,6 +14,8 @@ import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginAction
 
 import { chatExit } from '../actions/chatActions';
 
+import './App.css';
+
 @connect(store => ({
   userId: store.login.userId,
   name: store.login.name,
@@ -98,12 +100,14 @@ class App extends Component {
         )
       }
     }
+
     const Chat = <ChatBody />;
-    if (this.props.mounted) {
+
+     if (this.props.mounted) {
       return (
         <div>
           <ViewNavBar {...navBarProps} />
-          {Login()}
+          {Login}
         </div>
       );
     }

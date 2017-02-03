@@ -38,7 +38,7 @@ var config = {
                 exclude: /node_modules/,
                 test: SRC_DIR,
                 query: {
-                    presets: ['es2015', 'react', 'stage-2'],
+                    presets: ['es2015', 'react', 'stage-1'],
                     plugins: [
                         "transform-decorators-legacy", 
                         "transform-function-bind", 
