@@ -19,19 +19,6 @@ import { userLogout } from './../../actions/loginActions';
   showMap: store.nav.showMap,
 }))
 class ViewNavBar extends Component {
-
-  handleChatExit() {
-    if (this.props.roomId) {
-      axios.post('/exitChat', { id: this.props.userId })
-    .then(() => {
-      this.props.dispatch(chatExit());
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    }
-  }
-
   handleUserLogout() {
     axios.post('/logout', { id: this.props.userId })
    .then(() => {
@@ -51,7 +38,9 @@ class ViewNavBar extends Component {
   }
 
   render() {
-    const NavHeaderProps = { handleChatExit: ::this.handleChatExit };
+    console.log('PROPS:');
+    console.log(this.props)
+    const NavHeaderProps = { handleChatExit: this.props.chatExit };
     const navToggleProps = {
       toggleModal: ::this.toggleModal,
       toggleMapModal: ::this.toggleMapModal,

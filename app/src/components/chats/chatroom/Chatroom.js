@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
-import { Modal, Panel, Alert } from 'react-bootstrap';
+import { Modal, Panel } from 'react-bootstrap';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { Form, FormGroup, FormControl } from 'react-bootstrap';
 
 import ChatLine from './ChatLineItem';
 import UserItem from './UserItem';
-import ChatJoinModal from './ChatJoinModal.js'
+import ChatJoinModal from './ChatJoinModal';
+
+import { PrivateChatModal, RejectPrivateChatModal, ChatBoxComponent } from './chatModals/chatModals';
 
 class Chatroom extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       messages: [],
@@ -19,14 +21,13 @@ class Chatroom extends Component {
       pcData: {},
       newMessage: '',
       roommates: [],
-      userSockets: {}
-    }
+      userSockets: {},
+    };
+
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handlePrivateChat = this.handlePrivateChat.bind(this);
-    this.acceptPrivateChat = this.acceptPrivateChat.bind(this);
-    this.declinePrivateChat = this.declinePrivateChat.bind(this);
-    this.acceptRejection = this.acceptRejection.bind(this);
+
     this.joinPrivate = this.joinPrivate.bind(this);
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.handleNewMessage = this.handleNewMessage.bind(this);
@@ -34,7 +35,7 @@ class Chatroom extends Component {
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
-    }
+  }
 
   componentDidMount() {
     //creating a socket connection
@@ -168,7 +169,7 @@ class Chatroom extends Component {
       receiver: recipSID,
       receiverName: recipName,
       sender: this.socket.json.id,
-      senderName: this.props.name
+      senderName: this.props.name,
     });
   };
 
@@ -213,20 +214,19 @@ class Chatroom extends Component {
     //leave current room before joining new private room
     this.socket.emit('leaveRoom', {
       room: this.props.roomId,
-      user: this.props.name
+      user: this.props.name,
     });
-    var priv = this.state.pcData
+    var priv = this.state.pcData;
     //request to logout as active user to join a private chat
-    axios.post('/privateRoom', {id : priv.privateRoom})
-      .then(res => {
+    axios.post('/privateRoom', { id: priv.privateRoom })
+      .then(() => {
         //resetting all messages for private chat
         this.setState({
           messages: []
         })
         //initiate a room change in parent for sender
         this.props.roomChange(priv.privateRoom);
-      })
-      .catch(err => {
+      }).catch(err => {
         console.log('error in joining private chat: ', err);
       })
   };
@@ -239,101 +239,86 @@ class Chatroom extends Component {
     });
   };
 
-  render(){
-    var messages = this.state.messages
-    var roomTitle = '';
-    if (typeof this.props.roomId === 'number') {
-      roomTitle = "Room " + this.props.roomId;
-    } else {
-      roomTitle = "Private Chat";
+  render() {
+    const messages = this.state.messages;
+    let roomTitle = '';
+    const UserListStyle = {
+      maxWidth: 100,
+      margin: '0 auto 10px',
+    };
+ 
+    const pCht = {
+      showRequest: this.state.showRequest,
+      senderName: this.state.pcData.senderName,
+      acceptPrivateChat: ::this.acceptPrivateChat,
+      declinePrivateChat: ::this.declinePrivateChat,
+    };
+    const rejPChat = {
+      rejected: this.state.rejected,
+      recieverName: this.state.pcData.receiverName,
+      acceptRejection: ::this.acceptRejection,
+    };
+    const usersProps = {
+      privateChat: ::this.handlePrivateChat,
+    };
+    const chatBoxProps = {
+      messages: this.state.messages,
+      chatlist: ::this.chatList,
+      handlePrivateChat: ::this.handlePrivateChat,
     }
-    var UserListStyle={maxWidth: 100, margin: '0 auto 10px'}
-      return (
-      <div>
-        <Modal show={this.state.showRequest} dialogClassName="custom-modal">
-          <Modal.Header>
-            <Modal.Title id="contained-modal-title-lg">Private Chat</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h3>{this.state.pcData.senderName} would like to start a private chat.</h3>
-            <Button onClick={this.acceptPrivateChat}>Accept</Button>
-            <Button onClick={this.declinePrivateChat}>Decline</Button>
-          </Modal.Body>
-        </Modal>
 
-        <Modal show={this.state.rejected} dialogClassName="custom-modal">
-          <Modal.Header>
-            <Modal.Title id="contained-modal-title-lg">Private Chat</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h3>{this.state.pcData.receiverName} has rejected your chat request.</h3>
-            <Button onClick={this.acceptRejection}>OK</Button>
-          </Modal.Body>
-        </Modal>
-        
+    if (typeof this.props.roomId === 'number') {
+      roomTitle = 'Room ' + this.props.roomId;
+    } else {
+      roomTitle = 'Private Chat';
+    }
+
+    const users = this.state.roommates.map((user) => {
+      const tempSocketId = this.state.userSockets[user.id];
+      return (<UserItem
+        key={user.id}
+        user={user}
+        socketId={tempSocketId}
+        {...usersProps}
+      />);
+    });
+
+    return (
+      <div>
+        <PrivateChatModal {...pCht} />
+        <RejectPrivateChatModal {...rejPChat} />
+
         <Grid>
           <Row>
             <Col xs={12} md={12}>
-            <Panel className="outerPanel" header={roomTitle}>
-              <div id="fixedPanel">
-                <Row>
-                  <Col style={UserListStyle} xs={2} md={2}>
-                    <div>
-                      {
-                        this.state.roommates.map(user => {
-                          var tempSocketId = this.state.userSockets[user.id]
-                          return <UserItem 
-                                  key={user.id} 
-                                  user={user} 
-                                  privateChat={this.handlePrivateChat}
-                                  socketId={tempSocketId}/>
-                        })
-                      }
-                    </div>
-                  </Col>
-                  
-                  <Col xsOffset={1} mdOffset={1} xs={9} md={9}>
-                    <div id="chatbox" ref={div => {this.chatList = div}}>
-                    {messages.map((message, index) =>
-                      <Row key={index}>
-                        <Col xs={12} md={12}>
-                          <ChatLine
-                            message={message}
-                            privateChat={this.handlePrivateChat}/>
-                        </Col>
-                      </Row>
-                    )}
-                    </div>
-                  </Col>
+              <Panel className="outerPanel" header={roomTitle}>
+                <div id="fixedPanel">
+                  <Row>
 
-                  <Col xsOffset={3} mdOffset={2} xs={9} md={9}>
-                    <Form onSubmit={this.handleMessageSubmit}>
-                      <FormGroup>
-                        <FormControl type="text" placeholder="Enter a Message" value={this.state.newMessage} onChange={this.handleNewMessage}/>
-                      </FormGroup>
-                    </Form>
-                  </Col>
-                </Row>
-              </div>
-            </Panel>
+                    <Col style={UserListStyle} xs={2} md={2}>
+                      <div>{users}</div>
+                    </Col>
+                    <ChatBoxComponent {...chatBoxProps} />
+                    <Col xsOffset={3} mdOffset={2} xs={9} md={9}>
+                      <Form onSubmit={this.handleMessageSubmit}>
+                        <FormGroup>
+                          <FormControl type="text" placeholder="Enter a Message" value={this.state.newMessage} onChange={this.handleNewMessage}/>
+                        </FormGroup>
+                      </Form>
+                    </Col>
+                  </Row>
+                </div>
+              </Panel>
             </Col>
           </Row>
         </Grid>
-        
-        <div>
-        
-        {
-          this.props.searchResults ? 
-          (
-            <ChatJoinModal searchResults={this.props.searchResults}/>
-          ) :
-          <div></div>
-        }
+        <div>{this.props.searchResults
+          ? <ChatJoinModal searchResults={this.props.searchResults} />
+          : null}
         </div>
-
       </div>
-    )
-    }
+    );
+  }
 }
 
 export default Chatroom;

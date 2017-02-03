@@ -22,21 +22,16 @@ class ChatSelection extends Component {
 
 handleUserLocation(e, selection){
   e.preventDefault();
-
   this.setState({
     loading : true
   })
-
   var options = {
     enableHighAccuracy : true,
     timeout : 5000,
     maximumAge : 0
   };
-
   var success = (pos) => {
-    
     var crd = pos.coords;
-
     console.log('Your current position is:');
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude: ${crd.longitude}`);
@@ -52,7 +47,6 @@ handleUserLocation(e, selection){
   var error = (err) => {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
-
   navigator.geolocation.getCurrentPosition(success, error, options);
 }
 
@@ -62,11 +56,9 @@ handleGlobalSearch(lat, long){
       latitude : lat,
       longitude : long
     }
-  })
-  .then(res => {
+  }).then(res => {
     this.props.selectRoom(res.data.roomId, 1, {'host' : res.data.host});
-  })
-  .catch(error => {
+  }).catch(error => {
     console.log(error);
   })
 }
@@ -77,11 +69,9 @@ handleLocalSearch(lat, long){
       latitude : lat,
       longitude : long
     }
-  })
-  .then(res => {
+  }).then(res => {
     this.props.selectRoom(res.data.roomId, 2, {'host' : res.data.host, 'distance' : res.data.distance});
-  })
-  .catch(error => {
+  }).catch(error => {
     console.log(error);
   })
 }
