@@ -47,3 +47,4 @@ class ChatBody extends Component {
 }
 
 export default ChatBody
+

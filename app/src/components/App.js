@@ -1,26 +1,14 @@
 import React, { PropTypes, Component } from 'react';
 import { Router } from 'react-router';
-<<<<<<< HEAD
 import axios from 'axios'
 import {connect} from 'react-redux'
-
-import ChatBody from './chats/ChatBody'
-import LoginSignupView from './login/LoginSignupView'
-import ViewNavBar from './topBar/ViewNavbar'
-import Login2 from './login2/Login'
-
-import {mountApp, userLogin, userLogout} from '../actions/loginActions'
-=======
-import axios from 'axios';
-import {connect} from 'react-redux';
 
 import ChatBody from './chats/ChatBody';
 import LoginSignupView from './login/LoginSignupView';
 import ViewNavBar from './topBar/ViewNavbar';
 import Login2 from './login2/Login';
 
-import { mountApp, userLogin } from '../actions/loginActions';
->>>>>>> [refactor] redux implementation for various top level files
+import {mountApp, userLogin, userLogout} from '../actions/loginActions'
 
 @connect(store => ({
   userId: store.login.userId,
@@ -28,11 +16,8 @@ import { mountApp, userLogin } from '../actions/loginActions';
   logged_in: store.login.logged_in,
   mounted: store.login.mounted,
 }))
-<<<<<<< HEAD
-class App extends React.Component {
-=======
+
 class App extends Component {
->>>>>>> [refactor] redux implementation for various top level files
 
   componentWillMount() {
     axios.get('/checkSession').then((res) => {
@@ -54,16 +39,9 @@ class App extends Component {
       console.log(err);
     });
   }
-<<<<<<< HEAD
 
   handleUserSignupLogin(res) {
     this.props.dispatch(userLogin(res));
-
-=======
-
-  handleUserSignupLogin(res) {
-    this.props.dispatch(userLogin(res));
->>>>>>> [refactor] redux implementation for various top level files
   }
 
   render() {
