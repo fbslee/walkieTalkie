@@ -10,7 +10,8 @@ export default class AuthService extends EventEmitter {
       auth: {
         redirectUrl: `http://localhost:3000`,
         responseType: 'token'
-      }
+      },
+      closable: false
     })
     this.lock.on('authenticated', this._doAuthentication.bind(this))
     this.lock.on('authorization_error', this._authorizationError.bind(this))
@@ -19,7 +20,7 @@ export default class AuthService extends EventEmitter {
 
   _doAuthentication(authResult){
     this.setToken(authResult.idToken)
-    browserHistory.replace('/home')
+    // browserHistory.replace('/home')
     this.lock.getProfile(authResult.idToken, (error, profile) => {
       if (error) {
         console.log('Error loading the Profile', error)
@@ -45,6 +46,7 @@ export default class AuthService extends EventEmitter {
   setProfile(profile){
     localStorage.setItem('profile', JSON.stringify(profile))
     this.emit('profile_updated', profile)
+    console.log(profile)
   }
 
   getProfile(){

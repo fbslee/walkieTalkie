@@ -11,8 +11,8 @@ build
 bundle.js
 
 
-** environment **
-.env
+** keys **
+keys.js
 
 ** config **
 .eslintrc.json
