@@ -15,6 +15,8 @@ import { chatExit } from '../actions/chatActions';
 
 import './App.css';
 
+import { chatExit } from '../actions/chatActions';
+
 @connect(store => ({
 
 }))
@@ -41,7 +43,6 @@ class App extends Component {
   //   });
   // }
 
-
   componentWillMount(){
     this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN)
   }
@@ -56,7 +57,6 @@ class App extends Component {
       console.log(getProfile)
   }
 
-  
 
 
   render() {
