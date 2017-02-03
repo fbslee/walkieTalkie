@@ -10,3 +10,6 @@ node_modules
 build
 bundle.js
 
+** config **
+.eslintrc.json
+.jsconfig.json
