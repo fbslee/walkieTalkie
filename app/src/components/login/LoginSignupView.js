@@ -20,9 +20,11 @@ class LoginSignupView extends Component {
   render(){
     return (
     <div>
-    { this.state.login_view ? 
-      <Login handleView={this.handleChangeView} userSignupLogin={this.props.userSignupLogin}/> 
-      : <SignUp handleView={this.handleChangeView} userSignupLogin={this.props.userSignupLogin}/>
+    { this.state.login_view 
+      ? <Login handleView={this.handleChangeView} 
+        userSignupLogin={this.props.userSignupLogin}/> 
+      : <SignUp handleView={this.handleChangeView} 
+        userSignupLogin={this.props.userSignupLogin}/>
     }
     </div>
     )

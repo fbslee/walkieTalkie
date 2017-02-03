@@ -10,5 +10,11 @@ node_modules
 build
 bundle.js
 
+
 ** environment **
 .env
+
+** config **
+.eslintrc.json
+.jsconfig.json
+
