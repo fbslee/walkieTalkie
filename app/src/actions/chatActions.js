@@ -21,4 +21,3 @@ export function chatSelection(inputRoomId, searchOptions, result) {
     },
   };
 }
-
