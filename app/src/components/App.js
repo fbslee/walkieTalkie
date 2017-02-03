@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { PropTypes } from 'react';
+import { Router } from 'react-router';
 import axios from 'axios'
 
 import ChatBody from './chats/ChatBody'
 import LoginSignupView from './login/LoginSignupView'
 import ViewNavBar from './topBar/ViewNavbar'
+import Login2 from './login2/Login'
 
 class App extends React.Component {
   constructor(props){
@@ -24,7 +26,22 @@ class App extends React.Component {
     this.handleChatExit = this.handleChatExit.bind(this);
     this.handleRoomChange = this.handleRoomChange.bind(this);
   }
+  static contextTypes = {
+    router: PropTypes.object
+  }
 
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    routes: PropTypes.element.isRequired
+  };
+
+  get content() {
+    return (
+      <Router
+        routes={this.props.routes}
+        history={this.props.history} />
+    )
+  }
 //===========================================================
 //              Top Bar Methods
 //===========================================================
