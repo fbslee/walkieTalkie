@@ -1,70 +1,87 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, NavItem } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-import UserInterests from './UserInterests'
+import UserInterests from './UserInterests';
 import MapModal from './MapModal';
+import { NavHeader, NavToggle } from './ViewNavbarComponents';
 
+import { togModal, togMapModal } from './../../actions/navActions';
+import { chatExit } from './../../actions/chatActions';
+import { userLogout } from './../../actions/loginActions';
+
+@connect(store => ({
+  userId: store.login.userId,
+  name: store.login.name,
+  roomId: store.chat.roomId,
+  show: store.nav.show,
+  showMap: store.nav.showMap,
+}))
 class ViewNavBar extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      show : false,
-      showMap : false
+
+  handleChatExit() {
+    if (this.props.roomId) {
+      axios.post('/exitChat', { id: this.props.userId })
+    .then(() => {
+      this.props.dispatch(chatExit());
+    })
+    .catch((err) => {
+      console.log(err);
+    });
     }
-    this.toggleModal = this.toggleModal.bind(this);
-    this.toggleMapModal = this.toggleMapModal.bind(this);
   }
 
-  toggleModal(){
-    this.setState({
-      show : !this.state.show
-    })
+  handleUserLogout() {
+    axios.post('/logout', { id: this.props.userId })
+   .then(() => {
+     this.props.dispatch(userLogout());
+   })
+   .catch((err) => {
+     console.log(err);
+   });
   }
 
-  toggleMapModal(){
-    this.setState({
-      showMap : !this.state.showMap
-    })
+  toggleModal() {
+    this.props.dispatch(togModal(this.props.show));
   }
 
-  render(){
-  return (
-  <Navbar inverse collapseOnSelect>
-    <Navbar.Header>
-      <Navbar.Brand onClick={this.props.home}>walkieTalkie</Navbar.Brand>
-      <Navbar.Toggle />
-    </Navbar.Header>
-      {this.props.userId ?
-        <div>    
-          <Navbar.Collapse>
-            <Nav>
-              <NavItem onClick={this.toggleModal}>Interest</NavItem>
-              <NavItem onClick={this.toggleMapModal}>Map</NavItem>
-            </Nav>
-            <Nav pullRight>
-              <NavItem onClick={this.props.logout}>Logout</NavItem>
-            </Nav>
-          </Navbar.Collapse>
-          <div>
+  toggleMapModal() {
+    this.props.dispatch(togMapModal(this.props.showMap));
+  }
+
+  render() {
+    const NavHeaderProps = { handleChatExit: ::this.handleChatExit };
+    const navToggleProps = {
+      toggleModal: ::this.toggleModal,
+      toggleMapModal: ::this.toggleMapModal,
+      handleUserLogout: ::this.handleUserLogout,
+    };
+    const userInterestsProps = {
+      show: this.props.show,
+      user: this.props.userId,
+      toggleModal: ::this.toggleModal,
+    };
+    const mapModalProps = {
+      show: this.props.showMap,
+      toggleModal: ::this.toggleMapModal,
+    };
+
+    const userInterests = this.props.show ? <UserInterests {...userInterestsProps} /> : null;
+    const mapModal = this.props.showMap ? <MapModal {...mapModalProps} /> : null;
+    return (
+      <Navbar inverse collapseOnSelect>
+        <NavHeader {...NavHeaderProps} />
         {
-          this.state.show ? 
-          (<UserInterests show={this.state.show} 
-                          user={this.props.userId} 
-                          toggleModal={this.toggleModal} />)
-          : (<div></div>)
-        } </div>
-        <div>
-        {
-          this.state.showMap ? 
-            <MapModal show={this.state.showMap} toggleModal={this.toggleMapModal} /> : (<div></div>)
+          (this.props.userId) ?
+            <div>
+              <NavToggle {...navToggleProps} />
+              <div>{userInterests}</div>
+              <div>{mapModal}</div>
+            </div> : <NavItem />
         }
-        </div>
-        </div>
-        :
-        <NavItem></NavItem>
-        }
-  </Navbar>
-  )
+      </Navbar>
+    );
   }
 }
 
