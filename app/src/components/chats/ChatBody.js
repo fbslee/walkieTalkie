@@ -6,7 +6,6 @@ import ChatSelection from './ChatSelection'
 
 import {chatExit, changeRoom, chatSelection} from '../../actions/chatActions'
 
-
 @connect(store => {
   return {
     roomId: store.chat.roomId,
