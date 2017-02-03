@@ -13,6 +13,8 @@ import keys from '../../../keys'
 import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginActions'
 import { chatExit } from '../actions/chatActions';
 
+import './App.css';
+
 @connect(store => ({
 
 }))
@@ -56,15 +58,41 @@ class App extends Component {
 
   
 
+
   render() {
     const token = this.lock.loggedIn()
     
     // const notLogged = () => {
     //   this.lock.login()
     // }
-    ( this.lock.loggedIn() )
-    ? <ChatBody onload={Logged()}/> 
-    : <ChatBody onload={notLogged()}/>
+    // ( this.lock.loggedIn() )
+    // ? <ChatBody onload={Logged()}/> 
+    // : <ChatBody onload={notLogged()}/>
+
+
+    const Login = () =>{
+      if(this.props.logged_in){
+        return(
+          <ChatBody />
+        )
+      } else {
+        return(
+          <ChatBody onload={lock.login()}/>
+        )
+      }
+    }
+
+    const Chat = <ChatBody />;
+
+     if (this.props.mounted) {
+      return (
+        <div>
+          <ViewNavBar {...navBarProps} />
+          {Login}
+        </div>
+      );
+    }
+    return null;
 
   }
 }
