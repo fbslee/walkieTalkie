@@ -26,22 +26,7 @@ class App extends React.Component {
     this.handleChatExit = this.handleChatExit.bind(this);
     this.handleRoomChange = this.handleRoomChange.bind(this);
   }
-  static contextTypes = {
-    router: PropTypes.object
-  }
 
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    routes: PropTypes.element.isRequired
-  };
-
-  get content() {
-    return (
-      <Router
-        routes={this.props.routes}
-        history={this.props.history} />
-    )
-  }
 //===========================================================
 //              Top Bar Methods
 //===========================================================

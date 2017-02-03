@@ -1,6 +1,6 @@
 import React, { PropTypes as T } from 'react'
 import {ButtonToolbar, Button} from 'react-bootstrap'
-import AuthService from 'utils/AuthService'
+import AuthService from '../../utils/AuthService'
 import styles from './styles.module.css'
 
 export class Login2 extends React.Component {
@@ -15,6 +15,7 @@ export class Login2 extends React.Component {
 
   render() {
     const { auth } = this.props
+    console.log('am i here?', auth)
     return (
       <div className={styles.root}>
         <h2>Login</h2>
