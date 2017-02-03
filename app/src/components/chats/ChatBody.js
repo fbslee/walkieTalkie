@@ -48,13 +48,3 @@ class ChatBody extends Component {
 }
 
 export default ChatBody
-
-/*
-
-{
-        (chat_view) 
-        ? <Chatroom {...chatroomProps} /> 
-        : <ChatSelection selectRoom={selectRoom} />
-}
-
- */
