@@ -7,7 +7,9 @@ import ChatBody from './chats/ChatBody';
 import LoginSignupView from './login/LoginSignupView';
 import ViewNavBar from './topBar/ViewNavbar';
 import Login2 from './login2/Login';
-
+import Auth0Lock from 'auth0-lock';
+import AuthService from '../utils/AuthService'
+import keys from '../../../keys'
 import {mountApp, userLogin, userLogout} from '../actions/loginActions'
 
 @connect(store => ({
@@ -45,6 +47,7 @@ class App extends Component {
   }
 
   render() {
+    const lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN)
     const navBarProps = {
       userId: this.props.userId,
     };
@@ -53,14 +56,24 @@ class App extends Component {
       userSignupLogin: ::this.handleUserSignupLogin,
     };
 
-    const Login = <LoginSignupView {...loginProps} />;
+    const Login = () =>{
+      if(this.props.logged_in){
+        return(
+          <ChatBody />
+        )
+      } else {
+        return(
+          <ChatBody onload={lock.login()}/>
+        )
+      }
+    }
     const Chat = <ChatBody />;
 
     if (this.props.mounted) {
       return (
         <div>
           <ViewNavBar {...navBarProps} />
-          {(this.props.logged_in) ? Chat : Login}
+          {Login()}
         </div>
       );
     }
