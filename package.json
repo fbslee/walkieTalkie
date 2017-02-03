@@ -35,12 +35,8 @@
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",
     "react-loading": "0.0.9",
-<<<<<<< HEAD
     "react-router": "^3.0.2",
     "react-redux": "^5.0.2",
-=======
-     "react-redux": "^5.0.2",
->>>>>>> ede91b524ac0709ca8809c1c8eab1449a379dba7
     "redux": "^3.6.0",
     "redux-logger": "^2.8.0",
     "redux-promise-middleware": "^4.2.0",
