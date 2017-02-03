@@ -20,6 +20,13 @@ export function userLogin(data) {
   }
 }
 
+export function userLogout() {
+  return {
+    type: 'USER_LOGOUT_SUCCESS',
+    payload: false
+  }
+}
+
 export function mountApp() {
   return {
     type: 'APP_MOUNTED',

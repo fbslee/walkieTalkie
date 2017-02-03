@@ -9,13 +9,20 @@ const ChatBody = ({roomChange, userId, roomId, name, searchResults, selectRoom, 
 
   return (
     <div>
-      {
-        (chat_view) 
-        ? <Chatroom {...chatroomProps} /> 
-        : <ChatSelection selectRoom={selectRoom} />
-      }
+      YOU MADE IT!
     </div>
   );
 };
 
 export default ChatBody;
+
+
+/*
+
+{
+        (chat_view) 
+        ? <Chatroom {...chatroomProps} /> 
+        : <ChatSelection selectRoom={selectRoom} />
+}
+
+ */
