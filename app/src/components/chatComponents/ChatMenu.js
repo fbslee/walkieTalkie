@@ -8,10 +8,9 @@ import { dismount } from '../../actions/appActions';
 @connect(store => ({
   lock: store.login.lock,
   roomname: store.chat.roomname,
+  picture: store.login.picture,
 }))
 class ChatMenu extends Component {
-  //handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
   handleMenuClick(e, color) {
     e.preventDefault();
     this.props.dispatch(setRoom(color));
@@ -53,7 +52,7 @@ class ChatMenu extends Component {
           </Menu.Item>
         </Menu.Menu>
         <Comment>
-          <Comment.Avatar src="http://semantic-ui.com/images/avatar/small/elliot.jpg" />
+          <Comment.Avatar src={this.props.picture} />
         </Comment>
       </Menu>
     );
