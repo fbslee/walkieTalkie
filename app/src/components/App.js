@@ -17,6 +17,10 @@ import './App.css';
 
 import { chatExit } from '../actions/chatActions';
 
+//====================================
+ import Chat from './chatComoponents';
+//===================================
+
 import './App.css';
 
 @connect(store => ({
