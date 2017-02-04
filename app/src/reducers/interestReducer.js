@@ -10,11 +10,15 @@ const defaultProps = {
 
 export default function reducer(state = defaultProps, action) {
   switch (action.type) {
-    case 'SELECT_INTEREST': {
-        const addedInterest = this.defaultProps.selectedInterests
-        addedInterest.concat(interest)
+    case 'TOGGLE_INTEREST': {
+        const interests = this.defaultProps.selectedInterests
+        if(interests.indexOf(action.payload) === -1){
+            interests.concat(action.payload)
+        } else {
+            interests.splice(interests.indexOf(action.payload), 1)
+        }
       return { ...state,
-        selectedInterests: addedInterest
+        selectedInterests: removedInterest
       };
     }
   }

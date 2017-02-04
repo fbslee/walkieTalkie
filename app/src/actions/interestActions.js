@@ -1,6 +1,6 @@
-export function selectInterest(interest) {
+export function toggleInterest(interest) {
   return {
-    type: 'SELECT_INTEREST',
+    type: 'TOGGLE_INTEREST',
     payload: interest,
   };
 }
