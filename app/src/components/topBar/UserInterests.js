@@ -11,7 +11,12 @@ class UserInterests extends Component {
     super(props);
     this.state = {
       mounted: false,
-      allInterests: [],
+      allInterests: [
+        'Soccer', 'Basketball', 'Football', 'Baseball', 'Hockey', 
+          'Beer', 'Wine', 'Tequila', 'Vodka', 'Whiskey', 'Shopping', 'Shoes', 'Style',
+          'Country', 'Hiphop', 'RnB', 'Jazz', 'EDM', 'Classical', 'Rock', 
+          'Java', 'C', 'Node', 'Ruby', 'Javascript', 'Photography'
+        ],
       selectedInterest: {},
     };
     this.componentWillMount = this.componentWillMount.bind(this);
@@ -20,25 +25,7 @@ class UserInterests extends Component {
   }
 
   componentWillMount() {
-    axios.get('/getAvailableInterests')
-    .then((result) => {
-      axios.get('/getUserInterest', { params: { id: this.props.user } })
-      .then((res) => {
-        res.data.forEach((int) => {
-          this.state.selectedInterest[int.id] = true;
-        });
-        this.setState({
-          mounted: true,
-          allInterests: result.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    
   }
 
   handleInterestSelection(interestId) {
