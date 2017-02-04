@@ -7,13 +7,12 @@ import ChatSelection from './chatSelection/ChatSelection';
 import { chatExit, changeRoom, chatSelection } from '../../actions/chatActions';
 
 @connect(store => ({
-  roomId: store.chat.roomId,
-  chat_view: store.chat.chat_view,
-  roomSearch: store.chat.roomSearch,
-  searchResults: store.chat.roomSearch,
-  logged_in: store.login.logged_in,
+  
 }))
 class ChatBody extends Component {
+  componentDidMount() {
+    
+  }
 
   handleRoomChange(newRoom) {
     this.props.dispatch(changeRoom(newRoom));

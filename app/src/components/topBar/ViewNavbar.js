@@ -7,16 +7,10 @@ import UserInterests from './UserInterests';
 import MapModal from './MapModal';
 import { NavHeader, NavToggle } from './ViewNavbarComponents';
 
-import { togModal, togMapModal } from './../../actions/navActions';
-import { chatExit } from './../../actions/chatActions';
-import { userLogout } from './../../actions/loginActions';
+
 
 @connect(store => ({
-  userId: store.login.userId,
-  name: store.login.name,
-  roomId: store.chat.roomId,
-  show: store.nav.show,
-  showMap: store.nav.showMap,
+
 }))
 class ViewNavBar extends Component {
   handleUserLogout() {

@@ -6,36 +6,36 @@ import AuthService from '../utils/AuthService';
 
 import Chat from './chatComponents/Chat';
 import ChatBody from './chats/ChatBody';
-import ViewNavBar from './topBar/ViewNavbar';
+//import ViewNavBar from './topBar/ViewNavbar';
 import keys from '../../../keys';
-
-import './App.css';
-
-import { chatExit } from '../actions/chatActions';
-
-//====================================
- import Chat from './chatComponents/Chat';
-//===================================
+import {tester} from '../actions/appActions';
 
 import './App.css';
 
 @connect(store => ({
-
+  mounted: store.app.mounted,
 }))
 class App extends Component {
   componentWillMount() {
-    this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN);
+    if(!this.myLock) {
+      this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN);
+    } 
+  }
+
+  componentDidMount() {
+    if(this.myLock.loggedIn()) {
+      this.props.dispatch(tester())
+    }
   }
 
   render() {
-    console.log(this.lock.loggedIn())
-    //return <ChatBody /> 
-    //const token = this.lock.loggedIn()
-    if(this.lock.loggedIn()) {
-      return <ChatBody /> 
-    } else {
-      <ChatBody onload={this.lock.login()}/>
-    }
+
+      if(this.lock.loggedIn()) {
+        //this.lock.logout();
+        return <ChatBody /> 
+      } else {
+        return (<ChatBody onload={this.lock.login()} lock={this.lock}/>);
+      } 
   }
 }
 
