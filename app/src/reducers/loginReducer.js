@@ -3,6 +3,7 @@ const defaultProps = {
   name: null,
   logged_in: false,
   mounted: false,
+  userProfile: {},
 }
 
 export default function reducer(state = defaultProps, action) {
@@ -35,6 +36,12 @@ export default function reducer(state = defaultProps, action) {
     case 'APP_MOUNTED': {
       return {...state,
         mounted: action.payload  
+      }
+    }
+    case 'AUTH0_LOGIN_SUCCESS': {
+      return {...state,
+        userProfile: action.payload,
+        logged_in: true
       }
     }
   }
