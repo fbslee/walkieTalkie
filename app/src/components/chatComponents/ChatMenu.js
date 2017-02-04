@@ -9,8 +9,14 @@ import { dismount } from '../../actions/appActions';
   lock: store.login.lock,
   roomname: store.chat.roomname,
   picture: store.login.picture,
+  auth_info: store.login,
 }))
 class ChatMenu extends Component {
+
+  componentDidlMount() {
+    this.props.dispatch({ type: 'server/connected', data: this.props.auth_info });
+  }
+
   handleMenuClick(e, color) {
     e.preventDefault();
     this.props.dispatch(setRoom(color));

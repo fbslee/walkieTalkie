@@ -15,6 +15,7 @@ import '../App.css';
 class Chat extends Component {
 
   componentDidMount() {
+    this.props.dispatch(setRoom('red'));
     setTimeout(() => {
       this.props.dispatch(setRoom('red'));
     }, 1000);

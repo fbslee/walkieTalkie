@@ -1,14 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const chalk = require('chalk');
-
-mongoose.connect()
 
 const http = require('http');
 const socketIo = require('socket.io');
 const port = process.env.PORT || 3000;
-const app = express()
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 module.exports.app = app;
@@ -111,12 +108,38 @@ app.post('/privateRoom', (req, res) => {
 
 
 
-//-----------------------------------------------
+// -----------------------------------------------
 //                SOCKETS
-//-----------------------------------------------
-//listening for socket connection from client
-io.on('connection', socket => {
-  console.log(chalk.blue(socket));
+// -----------------------------------------------
+// listening for socket connection from client
+io.on('connection', (socket) => {
+
+  socket.on('action', (action) => {
+    if (action.type === 'server/connected'){
+      console.log('Got hello data!', action.data);
+      socket.emit('action', {type:'UPDATE_ROOM_IO', data:'good day!'});
+    } 
+  });
+
+  //socket.brodcast.to(socket.id).emit('request_info_io', socket.id);
+  //socket.brodcast.to(socket.id).emit('action', { type: 'REQUEST_INFO_IO', data: socket.id });
+
+
+
+
+
+
+
+
+
+
+
+  //socket.brodcast.to(socket.id).emit('request_info_io', socket.id);
+
+  socket.on('request_info_resp_io', (id, data) => {
+    console.log('SOCKET.io --> ', id );
+  });  
+
 
   //listening for and joining room
   socket.on('join room', room => {

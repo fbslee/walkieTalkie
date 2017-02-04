@@ -8,7 +8,7 @@
     "node": "7.2.1"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "webpack": "./node_modules/.bin/webpack -d --colors --progress --watch",
     "dev": "webpack-dev-server --progress --colors",
     "test": "mocha"
@@ -29,6 +29,7 @@
     "invariant": "^2.2.2",
     "jwt-decode": "^2.1.0",
     "lodash": "^4.17.4",
+    "mongoose": "^4.8.1",
     "mysql": "^2.13.0",
     "mysql2": "^1.1.2",
     "nodemon": "^1.11.0",
@@ -41,6 +42,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.0",
     "redux-promise-middleware": "^4.2.0",
+    "redux-socket.io": "^1.3.1",
     "redux-thunk": "^2.2.0",
     "redux-unhandled-action": "^1.2.0",
     "semantic-ui-css": "^2.2.4",
