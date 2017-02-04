@@ -17,10 +17,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('./app/build'))
 
-app.get('/', (req, res) => {
+// app.get('/', (req, res) => {
 
-  res.status(200).send(error);
-});
+//   res.status(200).send(error);
+// });
 
 app.get('/findGlobalRoom', (req, res) => {
   dataHandler.createSession(req.session.userId, req.query.latitude, req.query.longitude)
@@ -116,7 +116,7 @@ app.post('/privateRoom', (req, res) => {
 //-----------------------------------------------
 //listening for socket connection from client
 io.on('connection', socket => {
-  console.log('sockets connected');
+  console.log(chalk.blue(socket));
 
   //listening for and joining room
   socket.on('join room', room => {
@@ -184,7 +184,7 @@ io.on('connection', socket => {
 })
 
 
-server.listen(port, function() {
+server.listen(port, () => {
   
   console.log('Listening On localhost:' + port)
 });
