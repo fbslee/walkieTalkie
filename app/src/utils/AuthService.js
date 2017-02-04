@@ -26,6 +26,7 @@ export default class AuthService extends EventEmitter {
         console.log('Error loading the Profile', error)
       } else {
         this.setProfile(profile)
+        this.lock.hide()
       }
     })
   }

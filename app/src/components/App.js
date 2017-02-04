@@ -17,13 +17,13 @@ import './App.css';
 }))
 class App extends Component {
   componentWillMount() {
-    if(!this.myLock) {
+    if(!this.lock) {
       this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN);
     } 
   }
 
   componentDidMount() {
-    if(this.myLock.loggedIn()) {
+    if(this.lock.loggedIn()) {
       this.props.dispatch(tester())
     }
   }
