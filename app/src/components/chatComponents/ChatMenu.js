@@ -7,15 +7,10 @@ import { dismount } from '../../actions/appActions';
 
 @connect(store => ({
   lock: store.login.lock,
-  activeItem: store.chat.activeItem,
+  roomname: store.chat.roomname,
 }))
 class ChatMenu extends Component {
-
-  componentDidMount() {
-
-  }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  //handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   handleMenuClick(e, color) {
     e.preventDefault();

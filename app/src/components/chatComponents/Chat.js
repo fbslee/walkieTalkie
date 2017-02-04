@@ -36,7 +36,7 @@ class Chat extends Component {
 
         <ChatMenu />
 
-        <Segment color="red" padded>
+        <Segment color={this.props.roomname} padded>
           <ChatTop />
           <Divider hidden fitted />
           <Input

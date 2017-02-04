@@ -24,7 +24,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('COMPONENT DID DISMOUNT!!!')
     if (this.lock.loggedIn()) {
       this.props.dispatch(mount());
       this.props.dispatch(setProfile(this.lock.getProfile()));
