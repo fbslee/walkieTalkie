@@ -4,3 +4,10 @@ export function mount() {
     payload: true,
   };
 }
+
+export function dismount() {
+  return {
+    type: 'APP_DISMOUNT',
+    payload: false,
+  };
+}

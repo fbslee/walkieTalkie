@@ -7,7 +7,7 @@ import keys from '../../../keys';
 import LoginBackground from './loginBackground';
 import Chat from './chatComponents/Chat';
 
-import { setProfile, setToken, setLock, test } from '../actions/loginActions';
+import { setProfile, setToken, setLock } from '../actions/loginActions';
 import { mount } from '../actions/appActions';
 
 import './App.css';
@@ -24,6 +24,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log('COMPONENT DID DISMOUNT!!!')
     if (this.lock.loggedIn()) {
       this.props.dispatch(mount());
       this.props.dispatch(setProfile(this.lock.getProfile()));

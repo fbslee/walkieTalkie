@@ -3,6 +3,7 @@ import { Menu, Comment, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import { setRoom } from '../../actions/chatActions';
+import { dismount } from '../../actions/appActions';
 
 @connect(store => ({
   lock: store.login.lock,
@@ -24,6 +25,7 @@ class ChatMenu extends Component {
   handleLogout(e) {
     e.preventDefault();
     this.props.lock.logout();
+    this.props.dispatch(dismount());
   }
 
   render() {
