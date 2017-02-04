@@ -12,6 +12,7 @@ var http = require('http');
 var socketIo = require('socket.io');
 var port = process.env.PORT || 3000;
 
+mongoose.connect()
 var app = express()
 // app.locals['activeSocket'] = {}
 //need to create server for socket.io
@@ -30,49 +31,6 @@ app.use(session({
   duration : 15 * 60 * 1000,
   activeDuration : 15 * 60 * 1000
 }));
-
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, './public/index.html'))
-// });
-
-// app.get('/checkSession', (req, res) => {
-//   res.status(200).send({
-//     id : req.session.userId, 
-//     roomId : req.session.roomId, 
-//     firstname : req.session.userName
-//   });
-// });
-
-app.get('/getActiveUsers', (req, res) => {
-  dataHandler.getActiveUsers(req.query.roomId, req.query.userId, (error, result) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      console.log(result);
-      res.status(200).json(result);
-    }
-  })
-})
-
-app.get('/getAvailableInterests', (req, res) => {
-  dataHandler.getAllInterests((error, result) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.status(200).json(result);
-    }
-  })
-})
-
-app.get('/getUserInterest', (req, res) => {
-  dataHandler.getUserInterests(req.query.id, (error, result) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.status(200).json(result);
-    }
-  })
-})
 
 app.get('/findGlobalRoom', (req, res) => {
   dataHandler.createSession(req.session.userId, req.query.latitude, req.query.longitude)
@@ -137,45 +95,6 @@ app.get('/findCommonUser', (req, res) => {
   })
 });
 
-// app.post('/signup', (req, res) => {
-//   dataHandler.createUser(req.body, (error, result) => {
-//     if (error.invalid) {
-//       res.status(200).json(error);
-//     } else if (error) {
-//       res.status(500).send(error);
-//     }else {
-//       req.session.userId = result.id;
-//       req.session.userName = result.firstname;
-//       res.status(200).json(result);
-//     }
-//   })
-// });
-
-// app.post('/login', (req, res) => {
-//   dataHandler.userLogin(req.body.email, req.body.password, (error, result) => {
-//     if (error.invalid) {
-//       res.status(200).json(error);
-//     } else if (error) {
-//       res.status(500).send(error);
-//     }else {
-//       req.session.userId = result.id;
-//       req.session.userName = result.firstname;
-//       res.status(200).json(result);
-//     }
-//   })
-// });
-
-// app.post('/logout', (req, res) => {
-//   dataHandler.userLogout(req.session.userId, error => {
-//     if (error) {
-//       res.status(500).send(error);
-//     } else {
-//       req.session.destroy();
-//       res.status(200).send('Logout successful');
-//     }
-//   })
-// })
-
 app.post('/exitChat', (req, res) => {
   dataHandler.exitRoom(req.session.userId, error => {
     if (error) {
@@ -184,16 +103,6 @@ app.post('/exitChat', (req, res) => {
       req.session.roomId = null;
       res.status(200).send('Exit Successful')
 
-    }
-  })
-})
-
-app.post('/saveInterest', (req, res) => {
-  dataHandler.saveUserInterests(req.session.userId, req.body, (error, result) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.status(200).send('Save Successful')
     }
   })
 })
