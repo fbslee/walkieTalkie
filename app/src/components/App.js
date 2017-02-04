@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import Auth0Lock from 'auth0-lock';
+//import Auth0Lock from 'auth0-lock';
 import AuthService from '../utils/AuthService';
 
 import Chat from './chatComponents/Chat';
@@ -15,9 +15,10 @@ import {saveProfile, saveToken} from '../actions/loginActions'
 import './App.css';
 
 @connect(store => ({
-  mounted: store.app.mounted,
+
 }))
 class App extends Component {
+
   componentWillMount() {
     if(!this.lock) {
       this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN);
