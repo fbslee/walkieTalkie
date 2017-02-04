@@ -3,10 +3,15 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const SocketStore = require('./core/sockets/socketStore');
 
+mongoose.connect()
+
+
 const http = require('http');
 const socketIo = require('socket.io');
 const port = process.env.PORT || 3000;
+
 const app = express();
+
 const server = http.createServer(app);
 const io = socketIo(server);
 module.exports.app = app;
@@ -146,6 +151,7 @@ io.on('connection', (socket) => {
   });  
 
 
+
   //listening for and joining room
   socket.on('join room', room => {
     console.log('joining room ', room);
@@ -214,6 +220,7 @@ io.on('connection', (socket) => {
 
 server.listen(port, () => {
   console.log('Listening On localhost:' + port);
+
 });
 // database.sync()
 //   .then(res => {
