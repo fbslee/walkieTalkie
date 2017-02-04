@@ -6,9 +6,7 @@ import Auth0Lock from 'auth0-lock';
 import AuthService from '../utils/AuthService'
 
 import ChatBody from './chats/ChatBody';
-import LoginSignupView from './login/LoginSignupView';
 import ViewNavBar from './topBar/ViewNavbar';
-import Login2 from './login2/Login';
 import keys from '../../../keys'
 
 import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginActions'
@@ -16,7 +14,7 @@ import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginAction
 import { chatExit } from '../actions/chatActions';
 
 //====================================
- import Chat from './chatComoponents';
+ import Chat from './chatComponents/Chat';
 //===================================
 
 import './App.css';
@@ -94,25 +92,25 @@ class App extends Component {
       userSignupLogin: ::this.handleUserSignupLogin,
     };
 
-    const Login = () =>{
-      if(this.props.logged_in){
-        return(
-          <ChatBody onload={Logged()}/>
-        )
-      } else {
-        return(
-          <ChatBody onload={notLogged()}/>
-        )
-      }
-    }
+    // const Login = () =>{
+    //   if(this.props.logged_in){
+    //     return(
+    //       <ChatBody onload={Logged()}/>
+    //     )
+    //   } else {
+    //     return(
+    //       <ChatBody onload={notLogged()}/>
+    //     )
+    //   }
+    // }
 
-    const Chat = <ChatBody />;
+    //const Chat = <ChatBody />;
 
      if (this.props.mounted) {
       return (
         <div>
-          <ViewNavBar {...navBarProps} />
-          {Login}
+          <Chat />
+   
         </div>
       );
     }
