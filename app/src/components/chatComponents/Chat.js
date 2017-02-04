@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Segment, Input, Divider, Dimmer, Loader, Header, Image } from 'semantic-ui-react';
+import { Segment, Input, Divider, Dimmer, Loader } from 'semantic-ui-react';
 
 import ChatMenu from './ChatMenu';
 import ChatTop from './ChatTop';
@@ -21,7 +21,6 @@ class Chat extends Component {
   }
 
   render() {
-
     if (this.props.roomname === '') {
       return (
         <Dimmer active>
@@ -36,7 +35,7 @@ class Chat extends Component {
 
         <ChatMenu />
 
-        <Segment color="red" padded>
+        <Segment color={this.props.roomname} padded>
           <ChatTop />
           <Divider hidden fitted />
           <Input

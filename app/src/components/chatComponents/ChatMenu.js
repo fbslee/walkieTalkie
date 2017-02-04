@@ -3,19 +3,14 @@ import { Menu, Comment, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import { setRoom } from '../../actions/chatActions';
+import { dismount } from '../../actions/appActions';
 
 @connect(store => ({
   lock: store.login.lock,
-  activeItem: store.chat.activeItem,
+  roomname: store.chat.roomname,
+  picture: store.login.picture,
 }))
 class ChatMenu extends Component {
-
-  componentDidMount() {
-
-  }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
   handleMenuClick(e, color) {
     e.preventDefault();
     this.props.dispatch(setRoom(color));
@@ -24,6 +19,7 @@ class ChatMenu extends Component {
   handleLogout(e) {
     e.preventDefault();
     this.props.lock.logout();
+    this.props.dispatch(dismount());
   }
 
   render() {
@@ -56,7 +52,7 @@ class ChatMenu extends Component {
           </Menu.Item>
         </Menu.Menu>
         <Comment>
-          <Comment.Avatar src="http://semantic-ui.com/images/avatar/small/elliot.jpg" />
+          <Comment.Avatar src={this.props.picture} />
         </Comment>
       </Menu>
     );
