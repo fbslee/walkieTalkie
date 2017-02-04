@@ -35,13 +35,13 @@ app.use(session({
 //   res.sendFile(path.join(__dirname, './public/index.html'))
 // });
 
-app.get('/checkSession', (req, res) => {
-  res.status(200).send({
-    id : req.session.userId, 
-    roomId : req.session.roomId, 
-    firstname : req.session.userName
-  });
-});
+// app.get('/checkSession', (req, res) => {
+//   res.status(200).send({
+//     id : req.session.userId, 
+//     roomId : req.session.roomId, 
+//     firstname : req.session.userName
+//   });
+// });
 
 app.get('/getActiveUsers', (req, res) => {
   dataHandler.getActiveUsers(req.query.roomId, req.query.userId, (error, result) => {
@@ -137,44 +137,44 @@ app.get('/findCommonUser', (req, res) => {
   })
 });
 
-app.post('/signup', (req, res) => {
-  dataHandler.createUser(req.body, (error, result) => {
-    if (error.invalid) {
-      res.status(200).json(error);
-    } else if (error) {
-      res.status(500).send(error);
-    }else {
-      req.session.userId = result.id;
-      req.session.userName = result.firstname;
-      res.status(200).json(result);
-    }
-  })
-});
+// app.post('/signup', (req, res) => {
+//   dataHandler.createUser(req.body, (error, result) => {
+//     if (error.invalid) {
+//       res.status(200).json(error);
+//     } else if (error) {
+//       res.status(500).send(error);
+//     }else {
+//       req.session.userId = result.id;
+//       req.session.userName = result.firstname;
+//       res.status(200).json(result);
+//     }
+//   })
+// });
 
-app.post('/login', (req, res) => {
-  dataHandler.userLogin(req.body.email, req.body.password, (error, result) => {
-    if (error.invalid) {
-      res.status(200).json(error);
-    } else if (error) {
-      res.status(500).send(error);
-    }else {
-      req.session.userId = result.id;
-      req.session.userName = result.firstname;
-      res.status(200).json(result);
-    }
-  })
-});
+// app.post('/login', (req, res) => {
+//   dataHandler.userLogin(req.body.email, req.body.password, (error, result) => {
+//     if (error.invalid) {
+//       res.status(200).json(error);
+//     } else if (error) {
+//       res.status(500).send(error);
+//     }else {
+//       req.session.userId = result.id;
+//       req.session.userName = result.firstname;
+//       res.status(200).json(result);
+//     }
+//   })
+// });
 
-app.post('/logout', (req, res) => {
-  dataHandler.userLogout(req.session.userId, error => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      req.session.destroy();
-      res.status(200).send('Logout successful');
-    }
-  })
-})
+// app.post('/logout', (req, res) => {
+//   dataHandler.userLogout(req.session.userId, error => {
+//     if (error) {
+//       res.status(500).send(error);
+//     } else {
+//       req.session.destroy();
+//       res.status(200).send('Logout successful');
+//     }
+//   })
+// })
 
 app.post('/exitChat', (req, res) => {
   dataHandler.exitRoom(req.session.userId, error => {

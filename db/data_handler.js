@@ -33,57 +33,57 @@ module.exports.createUser = (nI, cb) => {
   })
 }
 
-module.exports.createSession = (inputId, lat, long) => {
-  return new Promise((resolve, reject) => {
-    return db.query('select * from ActiveUsers where userId = ?',
-    {replacements : [inputId], type : sequelize.QueryTypes.SELECT})
-    .then(searchResult => {
-      if (searchResult.length === 0) {
-        return ActiveUsers.create({
-          userId : inputId,
-          latitude : lat,
-          longitude : long
-        })
-        .then(createdUser => {
-          return resolve(createdUser);
-        })
-        .catch(error => {
-          return reject(error);
-        })
-      } else {
-        return resolve(searchResult);
-      }
-    })
-    .catch(error => {
-      return reject(error);
-    })
-  })
-}
+// module.exports.createSession = (inputId, lat, long) => {
+//   return new Promise((resolve, reject) => {
+//     return db.query('select * from ActiveUsers where userId = ?',
+//     {replacements : [inputId], type : sequelize.QueryTypes.SELECT})
+//     .then(searchResult => {
+//       if (searchResult.length === 0) {
+//         return ActiveUsers.create({
+//           userId : inputId,
+//           latitude : lat,
+//           longitude : long
+//         })
+//         .then(createdUser => {
+//           return resolve(createdUser);
+//         })
+//         .catch(error => {
+//           return reject(error);
+//         })
+//       } else {
+//         return resolve(searchResult);
+//       }
+//     })
+//     .catch(error => {
+//       return reject(error);
+//     })
+//   })
+// }
 
-module.exports.userLogin = (email, password, cb) => {
-  db.query('select * from Users where email = ?', 
-  {replacements : [email], type : sequelize.QueryTypes.SELECT})
-  .then(userFound => {
-    if (userFound.length === 1) {
-      util.comparePassword(password, userFound[0].password)
-      .then(match => {
-        if (match) {
-          cb(false, {id : userFound[0].id, firstname: userFound[0].firstname});
-        } else {
-          cb({invalid : true});
-        }
-      })
-      .catch(error => {
-        cb(error);
-      })
-    } else {
-      cb({invalid : true});
-    }
-  })
-  .catch(error => {
-    cb(error);
-  })
-}
+// module.exports.userLogin = (email, password, cb) => {
+//   db.query('select * from Users where email = ?', 
+//   {replacements : [email], type : sequelize.QueryTypes.SELECT})
+//   .then(userFound => {
+//     if (userFound.length === 1) {
+//       util.comparePassword(password, userFound[0].password)
+//       .then(match => {
+//         if (match) {
+//           cb(false, {id : userFound[0].id, firstname: userFound[0].firstname});
+//         } else {
+//           cb({invalid : true});
+//         }
+//       })
+//       .catch(error => {
+//         cb(error);
+//       })
+//     } else {
+//       cb({invalid : true});
+//     }
+//   })
+//   .catch(error => {
+//     cb(error);
+//   })
+// }
 
 module.exports.userLogout = (inputId, cb) => {
   db.query('delete from ActiveUsers where userId = ?',
