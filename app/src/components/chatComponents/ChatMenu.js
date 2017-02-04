@@ -4,13 +4,19 @@ import { connect } from 'react-redux';
 
 import { setRoom } from '../../actions/chatActions';
 import { dismount } from '../../actions/appActions';
+import { sendInfo } from '../../actions/socketActions';
 
 @connect(store => ({
   lock: store.login.lock,
   roomname: store.chat.roomname,
   picture: store.login.picture,
+  auth_info: store.login,
 }))
 class ChatMenu extends Component {
+  componentDidMount() {
+    this.props.dispatch(sendInfo(this.props.auth_info));
+  }
+
   handleMenuClick(e, color) {
     e.preventDefault();
     this.props.dispatch(setRoom(color));

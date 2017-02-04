@@ -6,15 +6,19 @@ import ChatMenu from './ChatMenu';
 import ChatTop from './ChatTop';
 
 import { setRoom } from '../../actions/chatActions';
+import { sendInfo } from '../../actions/socketActions';
 
 import '../App.css';
 
 @connect(store => ({
   roomname: store.chat.roomname,
+  auth_info: store.login,
 }))
 class Chat extends Component {
 
   componentDidMount() {
+    
+    this.props.dispatch(setRoom('red'));
     setTimeout(() => {
       this.props.dispatch(setRoom('red'));
     }, 1000);

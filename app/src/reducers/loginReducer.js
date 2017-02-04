@@ -8,6 +8,7 @@ const defaultProps = {
 
 export default function reducer(state = defaultProps, action) {
   switch (action.type) {
+
     case 'SET_PROFILE': {
       return { ...state,
         given_name: action.payload.given_name,
@@ -26,6 +27,7 @@ export default function reducer(state = defaultProps, action) {
         lock: action.payload,
       };
     }
+    default:
+      return state;
   }
-  return state;
 }

@@ -1,36 +1,28 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var session = require('express-session')
-var path = require('path')
-var database = require('./db/config.js')
-var Users = require('./db/schema/User.js')
-var ActiveUsers = require('./db/schema/ActiveUsers.js')
-var Interest = require('./db/schema/Interests.js')
-var UserInterests = require('./db/schema/UserInterests.js')
-var dataHandler = require('./db/data_handler.js')
-var http = require('http');
-var socketIo = require('socket.io');
-var port = process.env.PORT || 3000;
+const express = require('express');
+const bodyParser = require('body-parser');
+const chalk = require('chalk');
+const SocketStore = require('./core/sockets/socketStore');
 
-mongoose.connect()
-var app = express()
-// app.locals['activeSocket'] = {}
-//need to create server for socket.io
-var server = http.createServer(app);
-var io = socketIo(server);
+const http = require('http');
+const socketIo = require('socket.io');
+const port = process.env.PORT || 3000;
+
+const app = express();
+
+const server = http.createServer(app);
+const io = socketIo(server);
 module.exports.app = app;
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('./app/build'))
 
-app.use(session({
-  secret : "walkienotTalkie",
-  resave: false,
-  saveUninitialized: true,
-  duration : 15 * 60 * 1000,
-  activeDuration : 15 * 60 * 1000
-}));
+const SocketStorage = new SocketStore();
+const ministorage = [];
+// app.get('/', (req, res) => {
+
+//   res.status(200).send(error);
+// });
 
 app.get('/findGlobalRoom', (req, res) => {
   dataHandler.createSession(req.session.userId, req.query.latitude, req.query.longitude)
@@ -115,12 +107,51 @@ app.post('/privateRoom', (req, res) => {
       req.session.roomId = req.body.id;
       res.status(200).send('New private room created')
     }
-  })
+  });
 });
 
-//listening for socket connection from client
-io.on('connection', socket => {
-  console.log('sockets connected');
+
+
+
+// -----------------------------------------------
+//                SOCKETS
+// -----------------------------------------------
+// listening for socket connection from client
+io.on('connection', (socket) => {
+  console.log('SOCKET.io --> ', socket.id );
+
+  socket.on('action', (action) => {
+    if (action.type === 'server/connected'){
+      ministorage.push(action.data);
+      //const roomData = SocketStorage.findRoom(action.data);
+      //socket.join(roomData[0]);
+      socket.broadcast.emit('action', {type:'NEW_USER', data: ministorage });
+
+    } else if(action.type === 'server/message') {
+      socket.broadcast.emit('action', {type:'NEW_MESSAGE',  data: action.data });
+    } 
+  });
+
+  //socket.brodcast.to(socket.id).emit('request_info_io', socket.id);
+  //socket.brodcast.to(socket.id).emit('action', { type: 'REQUEST_INFO_IO', data: socket.id });
+
+
+
+
+
+
+
+
+
+
+
+  //socket.brodcast.to(socket.id).emit('request_info_io', socket.id);
+
+  socket.on('request_info_resp_io', (id, data) => {
+    
+  });  
+
+
 
   //listening for and joining room
   socket.on('join room', room => {
@@ -153,13 +184,13 @@ io.on('connection', socket => {
   //listening for a private chat request from client
   socket.on('privateRequest', pcData => {
     //relaying the private chat request to recipient
-    socket.broadcast.to(pcData.receiver).emit('requestModal', pcData)
+    socket.broadcast.to(pcData.receiver).emit('requestModal', pcData);
   })
 
   //listening for an acceptance from receiver of private chat request
   socket.on('acceptedRequest', pcData => {
     //replying to sender that the recipient has accepted the request
-    socket.broadcast.to(pcData.sender).emit('join private', pcData)
+    socket.broadcast.to(pcData.sender).emit('join private', pcData);
   })
 
   //listening for a request to leave current room
@@ -187,13 +218,16 @@ io.on('connection', socket => {
   })
 })
 
-database.sync()
-  .then(res => {
-    //must listen on server, not app, otherwise sockets won't connect
-    server.listen(port, function() {
-    console.log('Listening On localhost:' + port)
-    });
-  })
-  .catch(error => {
-    console.log('Database did not sync: ', error)
-  })
+
+server.listen(port, () => {
+  console.log('Listening On localhost:' + port);
+
+});
+// database.sync()
+//   .then(res => {
+//     //must listen on server, not app, otherwise sockets won't connect
+//
+//   })
+//   .catch(error => {
+//     console.log('Database did not sync: ', error)
+//   })
