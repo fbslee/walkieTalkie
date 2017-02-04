@@ -6,8 +6,7 @@ class LoginBackground extends Component {
   render() {
     return (
       <div>
-        <img src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Walkie-Talkie-icon.png" />
-        <Chat />
+        <img src="http://i.imgur.com/o9wbRTb.png" />
       </div>
     );
   }

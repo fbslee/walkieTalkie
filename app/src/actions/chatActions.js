@@ -1,7 +1,6 @@
-
-export function changeRoom(room) {
+export function setRoom(room) {
   return {
-    type: 'EXAMPLE_REDUCER',
+    type: 'SET_ROOMNAME',
     payload: room,
   };
 }

@@ -1,22 +1,20 @@
-import {applyMiddleware, createStore} from 'redux'
+import { applyMiddleware, createStore } from 'redux';
 
-import logger from 'redux-logger'
-import thunk from 'redux-thunk'
-import promise from 'redux-promise-middleware'
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
+import promise from 'redux-promise-middleware';
+import reduxUnhandledAction from 'redux-unhandled-action';
 
-import reducer from './reducers'
+import reducer from './reducers';
 
-/*
-THUNK: Actions can return a FUNCTION instead of an OBJECT
-ACTIONS can emit another ACTION!
-*/
-
-let plugins = [
+const callback = action => console.error(`${action} didn't lead to creation of a new state object`);
+const plugins = [
   promise(),
   thunk,
-  logger()
-]
+  logger(),
+  reduxUnhandledAction(callback),
+];
 
-const middleware = applyMiddleware(...plugins)
+const middleware = applyMiddleware(...plugins);
 
-export default createStore(reducer, middleware)
+export default createStore(reducer, middleware);
