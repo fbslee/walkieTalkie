@@ -1,13 +1,21 @@
-export function saveProfile(profile) {
+export function setProfile(profile) {
   return {
-    type: 'SAVE_PROFILE',
+    type: 'SET_PROFILE',
     payload: profile,
   };
 }
 
-export function saveToken(token){
-    return{
-        type: 'SAVE_TOKEN',
-        payload: token
-    }
+export function setToken(token) {
+  return {
+    type: 'SET_TOKEN',
+    payload: token,
+  };
 }
+
+export function setLock(lock) {
+  return {
+    type: 'SET_LOCK',
+    payload: lock,
+  };
+}
+

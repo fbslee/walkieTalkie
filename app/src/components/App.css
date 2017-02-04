@@ -24,6 +24,10 @@ html {
   max-width: 1000px;
 }
 
+.pad-it {
+    padding-top: 20px;
+}
+
 .side-scroll {
   width: auto;
   overflow-x: scroll;

@@ -16,7 +16,7 @@ class ViewNavBar extends Component {
   handleUserLogout() {
     axios.post('/logout', { id: this.props.userId })
    .then(() => {
-     this.props.dispatch(userLogout());
+     
    })
    .catch((err) => {
      console.log(err);
@@ -24,11 +24,11 @@ class ViewNavBar extends Component {
   }
 
   toggleModal() {
-    this.props.dispatch(togModal(this.props.show));
+
   }
 
   toggleMapModal() {
-    this.props.dispatch(togMapModal(this.props.showMap));
+
   }
 
   render() {
