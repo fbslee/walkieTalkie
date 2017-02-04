@@ -5,9 +5,7 @@ import {Provider} from 'react-redux'
 import App from './components/App'
 import store from './store'
 import {browserHistory} from 'react-router'
-// import makeRoutes from './routes'
 
-//import Bootstrap from 'bootstrap/dist/css/bootstrap.css'
 import Semantic from 'semantic-ui-css/semantic.css';
 import './stylesheet.css';
 
