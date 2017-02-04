@@ -8,7 +8,7 @@ class Bot {
     this.given_name = info.name.first;
     this.family_name = info.name.last;
     this.picture = info.picture.medium;
-    this.user_id = this._genRandInt(10000000000000000,99999999999999999);
+    this.user_id = this._genRandInt(10000000000000000, 99999999999999999);
     this.socket = io.connect('http://localhost:3000', 
         {resource: letter + '/socket.io', 
         'force new connection': true });

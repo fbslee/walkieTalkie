@@ -1,4 +1,5 @@
 const ROOM_DATA = require('./storage');
+const chalk = require('chalk');
 
 class SocketStore {
   constructor() {
@@ -13,22 +14,26 @@ class SocketStore {
     let assignedRoom = '';
     const roomNames = Object.keys(this.rooms);
     roomNames.forEach((key) => {
-      if (this.rooms.key.length < 10 && this.rooms.key.length > 0){
+      if (this.rooms[key].length < 10 && this.rooms[key].length > 0) {
         assignedRoom = key;
-        this.rooms.key.push(userInfo);
+        this.rooms[key].push(userInfo);
+        
+        let a = this.rooms[key].slice().unshift(key);
+        console.log(chalk.red(this.rooms[key]));
       }
     });
 
     if (assignedRoom === '') {
       return this.joinNewRoom(userInfo);
     }
-    return this.rooms.assignedRoom;
+    return this.rooms[assignedRoom];
   }
 
   joinNewRoom(info) {
     let roomUniqueName = ROOM_DATA[this.genRandInt(1, 99)];
     this.rooms[roomUniqueName] = [info];
-    return this.rooms[roomUniqueName];
+    var a = this.rooms[roomUniqueName].slice().unshift(roomUniqueName);
+    return a;
   }
 
 }

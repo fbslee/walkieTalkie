@@ -3,9 +3,6 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const SocketStore = require('./core/sockets/socketStore');
 
-mongoose.connect()
-
-
 const http = require('http');
 const socketIo = require('socket.io');
 const port = process.env.PORT || 3000;
@@ -21,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('./app/build'))
 
 const SocketStorage = new SocketStore();
+const ministorage = [];
 // app.get('/', (req, res) => {
 
 //   res.status(200).send(error);
@@ -124,11 +122,14 @@ io.on('connection', (socket) => {
 
   socket.on('action', (action) => {
     if (action.type === 'server/connected'){
-      action.data.socket = socket.id
-      const roomData = SocketStorage.findRoom(action.data);
+      ministorage.push(action.data);
+      //const roomData = SocketStorage.findRoom(action.data);
+      //socket.join(roomData[0]);
+      socket.broadcast.emit('action', {type:'NEW_USER', data: ministorage });
 
-      socket.emit('action', {type:'INIT_CHAT_IO', data: roomData});
-    } if(action.type) 
+    } else if(action.type === 'server/message') {
+      socket.broadcast.emit('action', {type:'NEW_MESSAGE',  data: action.data });
+    } 
   });
 
   //socket.brodcast.to(socket.id).emit('request_info_io', socket.id);
