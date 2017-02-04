@@ -14,6 +14,10 @@ import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginAction
 
 import { chatExit } from '../actions/chatActions';
 
+//====================================
+ import Chat from './chatComoponents';
+//===================================
+
 import './App.css';
 
 @connect(store => ({
