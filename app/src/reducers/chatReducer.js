@@ -4,15 +4,14 @@ const defaultProps = {
 
 export default function reducer(state = defaultProps, action) {
   switch (action.type) {
-    case 'EXAMPLE_REDUCER': {
+    case 'SET_ROOMNAME': {
       return { ...state,
-        roomname: '',
+        roomname: action.payload,
       };
     }
-
-    // default: {
-    //   console.log('Reducer does not exist!');
-    // }
+    default: {
+      break;
+    }
   }
   return state;
 }

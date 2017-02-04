@@ -1,40 +1,62 @@
 import React, { Component } from 'react';
-import { Menu, Comment } from 'semantic-ui-react';
+import { Menu, Comment, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
+import { setRoom } from '../../actions/chatActions';
+
+@connect(store => ({
+  lock: store.login.lock,
+  activeItem: store.chat.activeItem,
+}))
 class ChatMenu extends Component {
-  state = { activeItem: 'home' }
+
+  componentDidMount() {
+
+  }
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-  render() {
-    const { activeItem } = this.state;
+  handleMenuClick(e, color) {
+    e.preventDefault();
+    this.props.dispatch(setRoom(color));
+  }
 
+  handleLogout(e) {
+    e.preventDefault();
+    this.props.lock.logout();
+  }
+
+  render() {
+    const room = this.props.roomname;
     return (
-      <Menu className="safe-zone" size="large" pointing secondary>
+      <Menu className="safe-zone navigation-menu" size="large" pointing secondary>
         <Menu.Item
           name="Random Room"
-          active={activeItem === 'home'}
-          color={'red'}
-          onClick={this.handleItemClick}
+          active={room === 'red'}
+          color={(room === 'red') ? 'red' : 'black'}
+          onClick={e => this.handleMenuClick(e, 'red')}
         />
         <Menu.Item
           name="Nearest Users"
-          active={activeItem === 'messages'}
-          onClick={this.handleItemClick}
+          active={room === 'blue'}
+          color={(room === 'blue') ? 'blue' : 'black'}
+          onClick={e => this.handleMenuClick(e, 'blue')}
         />
         <Menu.Item
           name="Similar Users"
-          active={activeItem === 'friends'}
-          onClick={this.handleItemClick}
+          active={room === 'teal'}
+          color={(room === 'teal') ? 'teal' : 'black'}
+          onClick={e => this.handleMenuClick(e, 'teal')}
         />
         <Menu.Menu position="right">
-          <Menu.Item
-            name="logout"
-            active={activeItem === 'logout'}
-            onClick={this.handleItemClick}
-          />
+          <Menu.Item>
+            <Button basic color="black" onClick={e => this.handleLogout(e)}>
+              Logout
+            </Button>
+          </Menu.Item>
         </Menu.Menu>
         <Comment>
-          <Comment.Avatar src='http://semantic-ui.com/images/avatar/small/elliot.jpg' />
+          <Comment.Avatar src="http://semantic-ui.com/images/avatar/small/elliot.jpg" />
         </Comment>
       </Menu>
     );

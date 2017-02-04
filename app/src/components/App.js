@@ -7,7 +7,7 @@ import keys from '../../../keys';
 import LoginBackground from './loginBackground';
 import Chat from './chatComponents/Chat';
 
-import { setProfile, setToken } from '../actions/loginActions';
+import { setProfile, setToken, setLock, test } from '../actions/loginActions';
 import { mount } from '../actions/appActions';
 
 import './App.css';
@@ -28,6 +28,7 @@ class App extends Component {
       this.props.dispatch(mount());
       this.props.dispatch(setProfile(this.lock.getProfile()));
       this.props.dispatch(setToken(this.lock.getToken()));
+      this.props.dispatch(setLock(this.lock));
     }
   }
 
