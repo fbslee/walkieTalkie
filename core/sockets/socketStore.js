@@ -1,4 +1,4 @@
-import { ROOM_DATA } from './storage';
+const ROOM_DATA = require('./storage');
 
 class SocketStore {
   constructor() {
@@ -22,15 +22,15 @@ class SocketStore {
     if (assignedRoom === '') {
       return this.joinNewRoom(userInfo);
     }
-    return assignedRoom;
+    return this.rooms.assignedRoom;
   }
 
   joinNewRoom(info) {
-    const room = ROOM_DATA[this.genRandInt(1, 99)];
-    this.rooms.room = [info];
-    return room;
+    let roomUniqueName = ROOM_DATA[this.genRandInt(1, 99)];
+    this.rooms[roomUniqueName] = [info];
+    return this.rooms[roomUniqueName];
   }
 
 }
 
-export default SocketStore;
+module.exports = SocketStore;

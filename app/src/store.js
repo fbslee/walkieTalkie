@@ -24,8 +24,4 @@ const plugins = [
 const middleware = applyMiddleware(...plugins);
 const store = createStore(reducer, middleware);
 
-store.subscribe(() => {
-  console.log('new client state', store.getState());
-});
-
 export default store;

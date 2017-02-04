@@ -5,21 +5,20 @@ const defaultProps = {
 };
 export default function reducer(state = defaultProps, action) {
   switch (action.type) {
-
-    case 'MESSAGE_IO': {
-      const temp = state.messages.slice();
+    case 'REQUEST_INFO_IO': {
       return { ...state,
-        messages: temp.push(action.payload),
+        socketId: action.payload,
+      };
+    }
+    case 'INIT_CHAT_IO': {
+      const temp = state.currentRoom.slice();
+      return { ...state,
+        currentRoom: temp.push(action.payload),
       };
     }
     case 'UPDATE_ROOM_IO': {
       return { ...state,
         currentRoom: action.payload,
-      };
-    }
-    case 'REQUEST_INFO_IO': {
-      return { ...state,
-        socketId: action.payload,
       };
     }
     default:

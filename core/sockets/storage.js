@@ -1,4 +1,4 @@
-export default roomnames = [
+module.exports = [
   'ABS',
   'XRY',
   'IGRT',

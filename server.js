@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const chalk = require('chalk');
+const SocketStore = require('./core/sockets/socketStore');
 
 const http = require('http');
 const socketIo = require('socket.io');
@@ -14,6 +15,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('./app/build'))
 
+const SocketStorage = new SocketStore();
 // app.get('/', (req, res) => {
 
 //   res.status(200).send(error);
@@ -113,12 +115,15 @@ app.post('/privateRoom', (req, res) => {
 // -----------------------------------------------
 // listening for socket connection from client
 io.on('connection', (socket) => {
+  console.log('SOCKET.io --> ', socket.id );
 
   socket.on('action', (action) => {
     if (action.type === 'server/connected'){
-      console.log('Got hello data!', action.data);
-      socket.emit('action', {type:'UPDATE_ROOM_IO', data:'good day!'});
-    } 
+      action.data.socket = socket.id
+      const roomData = SocketStorage.findRoom(action.data);
+
+      socket.emit('action', {type:'INIT_CHAT_IO', data: roomData});
+    } if(action.type) 
   });
 
   //socket.brodcast.to(socket.id).emit('request_info_io', socket.id);
@@ -137,7 +142,7 @@ io.on('connection', (socket) => {
   //socket.brodcast.to(socket.id).emit('request_info_io', socket.id);
 
   socket.on('request_info_resp_io', (id, data) => {
-    console.log('SOCKET.io --> ', id );
+    
   });  
 
 
@@ -208,8 +213,7 @@ io.on('connection', (socket) => {
 
 
 server.listen(port, () => {
-  
-  console.log('Listening On localhost:' + port)
+  console.log('Listening On localhost:' + port);
 });
 // database.sync()
 //   .then(res => {
