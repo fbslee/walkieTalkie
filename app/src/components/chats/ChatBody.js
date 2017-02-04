@@ -11,7 +11,7 @@ import { chatExit, changeRoom, chatSelection } from '../../actions/chatActions';
 }))
 class ChatBody extends Component {
   componentDidMount() {
-    
+
   }
 
   handleRoomChange(newRoom) {

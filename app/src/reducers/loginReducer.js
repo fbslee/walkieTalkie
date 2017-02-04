@@ -1,50 +1,26 @@
 const defaultProps = {
-  userId: null,
-  name: null,
-  logged_in: false,
-  mounted: false,
-  userProfile: {},
+ given_name: null,
+ family_name: null,
+ user_id: null,
+ picture: null,
+ token: null
 }
 
 export default function reducer(state = defaultProps, action) {
   switch (action.type) {
-    case 'SET_USER_NAME': {
+    case 'SAVE_PROFILE': {
       return {...state, 
-        name: action.payload
+        given_name: action.payload.given_name,
+        family_name: action.payload.family_name,
+        user_id: action.payload.identities[0].user_id,
+        picture: action.payload.picture
       }
     }
-    case 'SET_USER_ID': {
+    case 'SAVE_TOKEN': {
       return {...state, 
-        userID: action.payload
-      }
-    }
-    case 'USER_LOGIN_SUCCESS': {
-      return {...state,
-        mounted: true, 
-        userId: action.payload.id,
-        name: action.payload.firstname,
-        logged_in: true
-      }
-    }
-    case 'USER_LOGOUT_SUCCESS': {
-      return {...state, 
-        userId: null,
-        name: null,
-        logged_in: false
-      }
-    }
-    case 'APP_MOUNTED': {
-      return {...state,
-        mounted: action.payload  
-      }
-    }
-    case 'AUTH0_LOGIN_SUCCESS': {
-      return {...state,
-        userProfile: action.payload,
-        logged_in: true
+        token: action.payload
       }
     }
   }
-
-  return state
+  return state;
 }
