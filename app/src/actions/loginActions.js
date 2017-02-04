@@ -35,3 +35,9 @@ export function mountApp() {
 }
 
 
+export function authLogin(data) {
+  return {
+    type: 'AUTH0_LOGIN_SUCCESS',
+    payload: data
+  }
+}
