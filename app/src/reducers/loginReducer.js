@@ -3,12 +3,12 @@ const defaultProps = {
  family_name: null,
  user_id: null,
  picture: null,
- token: null
+ lock: null,
 }
 
 export default function reducer(state = defaultProps, action) {
   switch (action.type) {
-    case 'SAVE_PROFILE': {
+    case 'SET_PROFILE': {
       return {...state, 
         given_name: action.payload.given_name,
         family_name: action.payload.family_name,
@@ -16,7 +16,7 @@ export default function reducer(state = defaultProps, action) {
         picture: action.payload.picture
       }
     }
-    case 'SAVE_TOKEN': {
+    case 'SET_TOKEN': {
       return {...state, 
         token: action.payload
       }

@@ -7,13 +7,13 @@ import keys from '../../../keys';
 import LoginBackground from './loginBackground';
 import Chat from './chatComponents/Chat';
 
-import { saveProfile, saveToken } from '../actions/loginActions';
-import { tester } from '../actions/appActions';
+import { setProfile, setToken } from '../actions/loginActions';
+import { mount } from '../actions/appActions';
 
 import './App.css';
 
 @connect(store => ({
-
+  mounted: store.app.mounted,
 }))
 class App extends Component {
 
@@ -25,9 +25,9 @@ class App extends Component {
 
   componentDidMount() {
     if (this.lock.loggedIn()) {
-      this.props.dispatch(tester());
-      this.props.dispatch(saveProfile(this.lock.getProfile()));
-      this.props.dispatch(saveToken(this.lock.getToken()));
+      this.props.dispatch(mount());
+      this.props.dispatch(setProfile(this.lock.getProfile()));
+      this.props.dispatch(setToken(this.lock.getToken()));
     }
   }
 
@@ -35,7 +35,7 @@ class App extends Component {
     if (this.lock.loggedIn()) {
       return <Chat />;
     }
-    return (<LoginBackground onload={this.lock.login()} lock={this.lock}/>);
+    return (<LoginBackground onload={this.lock.login()} lock={this.lock} />);
   }
 }
 
