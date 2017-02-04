@@ -22,27 +22,30 @@ import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginAction
 
 class App extends Component {
 
-  componentWillMount() {
-    axios.get('/checkSession').then((res) => {
-      if (res.data.id) {
-        console.log('AXIOS: WE HAVE AN ID D: !');
-        axios.post('/exitChat', { id: this.props.userId }).then((response) => {
-          console.log(response);
-        });
-        axios.post('/logout', { id: this.props.userId }).then((response) => {
-          console.log(response);
-        });
-        console.log('AXIOS: GOT SESSION ID!');
-      // this.props.dispatch(userLogin(res))
-      } else {
-        console.log('AXIOS: NO ID D: !');
-        this.props.dispatch(mountApp());
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
+  // componentWillMount() {
+  //   axios.get('/checkSession').then((res) => {
+  //     if (res.data.id) {
+  //       console.log('AXIOS: WE HAVE AN ID D: !');
+  //       axios.post('/exitChat', { id: this.props.userId }).then((response) => {
+  //         console.log(response);
+  //       });
+  //       axios.post('/logout', { id: this.props.userId }).then((response) => {
+  //         console.log(response);
+  //       });
+  //       console.log('AXIOS: GOT SESSION ID!');
+  //     // this.props.dispatch(userLogin(res))
+  //     } else {
+  //       console.log('AXIOS: NO ID D: !');
+  //       this.props.dispatch(mountApp());
+  //     }
+  //   }).catch((err) => {
+  //     console.log(err);
+  //   });
+  // }
 
+  componentWillMount(){
+    this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN)
+  }
   handleUserSignupLogin(res) {
     this.props.dispatch(userLogin(res));
   }
@@ -52,21 +55,18 @@ class App extends Component {
   }
 
   render() {
-    const lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN)
-
+    const token = this.lock.loggedIn()
     const navBarProps = {
       userId: this.props.userId,
     };
 
     const Logged = () => {
-      console.log('logged in')
+      const getProfile = this.lock.getProfile()
+      // this.handleUserAuthLogin({...getProfile})
+      console.log(getProfile)
     }
     const notLogged = () => {
-      console.log('not logged in')
-      lock.login()
-      const getProfile = lock.getProfile()
-      this.handleUserAuthLogin({...getProfile})
-      console.log('user profile', getProfile)
+      this.lock.login()
     }
 
     const loginProps = {
@@ -74,7 +74,7 @@ class App extends Component {
     };
 
     const Login = () =>{
-      if(this.props.logged_in){
+      if(token){
         return(
           <ChatBody onload={Logged()}/>
         )
@@ -94,7 +94,7 @@ class App extends Component {
         </div>
       );
     }
-    return null;
+    return <ChatBody onload={notLogged()}/>;
   }
 }
 
