@@ -2,24 +2,20 @@ import React, { PropTypes, Component } from 'react';
 import { Router } from 'react-router';
 import axios from 'axios'
 import {connect} from 'react-redux'
+import Auth0Lock from 'auth0-lock';
+import AuthService from '../utils/AuthService'
 
 import ChatBody from './chats/ChatBody';
 import LoginSignupView from './login/LoginSignupView';
 import ViewNavBar from './topBar/ViewNavbar';
 import Login2 from './login2/Login';
-import Auth0Lock from 'auth0-lock';
-import AuthService from '../utils/AuthService'
 import keys from '../../../keys'
 import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginActions'
+import { chatExit } from '../actions/chatActions';
 
 @connect(store => ({
-  userId: store.login.userId,
-  name: store.login.name,
-  logged_in: store.login.logged_in,
-  mounted: store.login.mounted,
-  userProfile: store.userProfile
-}))
 
+}))
 class App extends Component {
 
   // componentWillMount() {
@@ -43,58 +39,33 @@ class App extends Component {
   //   });
   // }
 
+
   componentWillMount(){
     this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN)
-  }
-  handleUserSignupLogin(res) {
-    this.props.dispatch(userLogin(res));
   }
 
   handleUserAuthLogin(res) {
     this.props.dispatch(authLogin(res));
   }
 
-  render() {
-    const token = this.lock.loggedIn()
-    const navBarProps = {
-      userId: this.props.userId,
-    };
-
-    const Logged = () => {
+  Logged() {
       const getProfile = this.lock.getProfile()
       // this.handleUserAuthLogin({...getProfile})
       console.log(getProfile)
-    }
-    const notLogged = () => {
-      this.lock.login()
-    }
+  }
 
-    const loginProps = {
-      userSignupLogin: ::this.handleUserSignupLogin,
-    };
+  
 
-    const Login = () =>{
-      if(token){
-        return(
-          <ChatBody onload={Logged()}/>
-        )
-      } else {
-        return(
-          <ChatBody onload={notLogged()}/>
-        )
-      }
-    }
-    const Chat = <ChatBody />;
+  render() {
+    const token = this.lock.loggedIn()
+    
+    // const notLogged = () => {
+    //   this.lock.login()
+    // }
+    ( this.lock.loggedIn() )
+    ? <ChatBody onload={Logged()}/> 
+    : <ChatBody onload={notLogged()}/>
 
-    if (this.props.mounted) {
-      return (
-        <div>
-          <ViewNavBar {...navBarProps} />
-          {Login()}
-        </div>
-      );
-    }
-    return <ChatBody onload={notLogged()}/>;
   }
 }
 
