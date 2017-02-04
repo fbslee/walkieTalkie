@@ -10,8 +10,14 @@ import LoginSignupView from './login/LoginSignupView';
 import ViewNavBar from './topBar/ViewNavbar';
 import Login2 from './login2/Login';
 import keys from '../../../keys'
-import {mountApp, userLogin, userLogout} from '../actions/loginActions'
+
+import {mountApp, userLogin, userLogout, authLogin} from '../actions/loginActions'
+
 import { chatExit } from '../actions/chatActions';
+
+//====================================
+ import Chat from './chatComoponents';
+//===================================
 
 import './App.css';
 
@@ -20,6 +26,7 @@ import './App.css';
   name: store.login.name,
   logged_in: store.login.logged_in,
   mounted: store.login.mounted,
+  userProfile: store.userProfile,
   chat_view: store.chat.chat_view,
 }))
 class App extends Component {
@@ -48,6 +55,10 @@ class App extends Component {
     this.props.dispatch(userLogin(res));
   }
 
+  handleUserAuthLogin(res) {
+    this.props.dispatch(authLogin(res));
+  }
+
   handleChatExit() {
     if (this.props.roomId) {
       axios.post('/exitChat', { id: this.props.userId })
@@ -62,10 +73,22 @@ class App extends Component {
 
   render() {
     const lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN)
+
     const navBarProps = {
       userId: this.props.userId,
       chatExit: ::this.handleChatExit,
     };
+
+    const Logged = () => {
+      console.log('logged in')
+    }
+    const notLogged = () => {
+      console.log('not logged in')
+      lock.login()
+      const getProfile = lock.getProfile()
+      this.handleUserAuthLogin({...getProfile})
+      console.log('user profile', getProfile)
+    }
 
     const loginProps = {
       userSignupLogin: ::this.handleUserSignupLogin,
@@ -74,11 +97,11 @@ class App extends Component {
     const Login = () =>{
       if(this.props.logged_in){
         return(
-          <ChatBody />
+          <ChatBody onload={Logged()}/>
         )
       } else {
         return(
-          <ChatBody onload={lock.login()}/>
+          <ChatBody onload={notLogged()}/>
         )
       }
     }
