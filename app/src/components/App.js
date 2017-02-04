@@ -27,24 +27,6 @@ class App extends Component {
     this.lock = new AuthService(keys.keys.AUTH0_CLIENT_ID, keys.keys.AUTH0_DOMAIN);
   }
 
-  Logged() {
-      const getProfile = this.lock.getProfile()
-      // this.handleUserAuthLogin({...getProfile})
-      console.log(getProfile)
-  }
-
-  handleChatExit() {
-    if (this.props.roomId) {
-      axios.post('/exitChat', { id: this.props.userId })
-    .then(() => {
-      this.props.dispatch(chatExit());
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    }
-  }
-
   render() {
     console.log(this.lock.loggedIn())
     //return <ChatBody /> 
