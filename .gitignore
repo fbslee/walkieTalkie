@@ -1,5 +1,5 @@
 
-
+npm-debug.log
 *.DS_Store
 *./public/keys
 
@@ -7,6 +7,14 @@
 node_modules
 
 ** webpack **
-public/build
+build
 bundle.js
+
+
+** keys **
+keys.js
+
+** config **
+.eslintrc.json
+.jsconfig.json
 
